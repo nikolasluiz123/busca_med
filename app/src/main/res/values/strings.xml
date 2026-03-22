@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">buscamed</string>
+    <string name="error_dialog_title">Erro</string>
+    <string name="warning_dialog_title">Atenção</string>
+    <string name="information_dialog_title">Informação</string>
+    <string name="label_back">Voltar</string>
+    <string name="login_screen_title">Um título ai</string>
+    <string name="label_ok">OK</string>
+    <string name="label_confirm">Confirmar</string>
+    <string name="label_cancel">Cancelar</string>
+    <string name="description_icon_hide_password">Esconder a senha</string>
+    <string name="description_icon_show_password">Exibir a senha</string>
+    <string name="outlined_textfield_validation_error_icon_description">Erro de Validação</string>
+    <string name="login_screen_label_user">E-mail</string>
+    <string name="login_screen_label_password">Senha</string>
+    <string name="login_screen_label_button_login">Login</string>
+    <string name="login_screen_label_button_register">Registrar-se</string>
+    <string name="login_screen_label_email">E-mail</string>
+    <string name="rounded_button_google_content_description">Autenticar-se com Google</string>
+
+    <string name="validation_error_required_field">O campo %s é obrigatório</string>
+    <string name="login_screen_validation_error_invalid_credentials">Credenciais inválidas. Verifique seu email e senha.</string>
+    <string name="login_screen_validation_error_account_blocked">Conta bloqueada temporariamente.</string>
+    <string name="validation_error_network">Erro de rede. Verifique sua conexão.</string>
+    <string name="validation_error_unknown">Ocorreu um erro desconhecido. Tente novamente mais tarde.</string>
+    <string name="register_user_screen_title_register_user">Um título ai</string>
+    <string name="register_user_screen_title_edit_user">Outro título ai</string>
+    <string name="register_user_screen_label_email">E-mail</string>
+    <string name="register_user_screen_label_password">Senha</string>
+    <string name="validation_error_invalid">O campo %s é inválido</string>
+    <string name="validation_error_too_short">O campo %s deve ter ao menos %s caracteres</string>
+    <string name="validation_error_too_long">O campo %s deve ter no máximo %s caracteres</string>
+    <string name="register_user_screen_validation_error_email_in_use">Este e-mail já está em uso</string>
+    <string name="register_user_label_name">Nome</string>
+    <string name="label_add">Adicionar</string>
+    <string name="label_save">Salvar</string>
+</resources>
