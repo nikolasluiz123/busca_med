@@ -7,9 +7,9 @@ jobs:
   run_tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
           java-version: '17'
@@ -26,9 +26,9 @@ jobs:
     needs: run_tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: 'zulu'
           java-version: '17'
@@ -42,7 +42,7 @@ jobs:
       - run: ./gradlew assembleDebug
 
       - name: Upload APK to Workspace
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: debug-apk
           path: app/build/outputs/apk/debug/*.apk
@@ -52,16 +52,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download APK from Workspace
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: debug-apk
           path: downloaded-apk
 
-      - uses: google-github-actions/auth@v2
+      - uses: google-github-actions/auth@v3
         with:
           credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
 
-      - uses: google-github-actions/setup-gcloud@v2
+      - uses: google-github-actions/setup-gcloud@v3
 
       - name: Upload to Bucket
         run: |
