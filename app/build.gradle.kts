@@ -86,4 +86,8 @@ dependencies {
     debugImplementation(platform(libs.androidx.compose.bom))
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.io.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
 }
