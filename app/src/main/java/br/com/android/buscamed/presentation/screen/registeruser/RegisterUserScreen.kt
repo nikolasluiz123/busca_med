@@ -21,6 +21,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -88,6 +89,7 @@ fun RegisterUserScreen(
         },
         floatingActionButton = {
             FloatingActionButtonSave(
+                modifier = Modifier.testTag(RegisterUserTestTag.SAVE_FAB.name),
                 iconColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
                 onClick = {
@@ -111,6 +113,7 @@ fun RegisterUserScreen(
             Modifier
                 .fillMaxSize()
                 .padding(padding)
+                .testTag(RegisterUserTestTag.SCREEN_CONTAINER.name)
         ) {
             val (loadingRef, containerRef) = createRefs()
 
@@ -150,7 +153,8 @@ fun RegisterUserScreen(
                                 end.linkTo(parent.end)
                                 top.linkTo(parent.top)
                                 width = Dimension.fillToConstraints
-                            },
+                            }
+                            .testTag(RegisterUserTestTag.NAME_FIELD.name),
                         field = state.name,
                         label = stringResource(R.string.register_user_screen_label_name_field),
                         keyboardOptions = PersonNameKeyboardOptions
@@ -163,7 +167,8 @@ fun RegisterUserScreen(
                                 end.linkTo(parent.end)
                                 top.linkTo(nameRef.bottom, margin = 8.dp)
                                 width = Dimension.fillToConstraints
-                            },
+                            }
+                            .testTag(RegisterUserTestTag.EMAIL_FIELD.name),
                         field = state.email,
                         label = stringResource(R.string.register_user_screen_label_email_field),
                         keyboardOptions = EmailKeyboardOptions
@@ -176,7 +181,8 @@ fun RegisterUserScreen(
                                 end.linkTo(parent.end)
                                 top.linkTo(emailRef.bottom, margin = 8.dp)
                                 width = Dimension.fillToConstraints
-                            },
+                            }
+                            .testTag(RegisterUserTestTag.PASSWORD_FIELD.name),
                         field = state.password,
                         label = stringResource(R.string.register_screen_label_password_field),
                         keyboardOptions = LastPasswordKeyboardOptions,

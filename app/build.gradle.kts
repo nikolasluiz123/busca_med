@@ -51,6 +51,11 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.15"
     }
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
 }
 
 tasks.withType<KotlinJvmCompile>().configureEach {
@@ -90,4 +95,7 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.io.mockk)
     testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.ui.test.junit4)
+    testImplementation(libs.androidx.test.ext.junit)
 }

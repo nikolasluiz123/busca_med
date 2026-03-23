@@ -9,11 +9,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import br.com.android.buscamed.R
 import br.com.android.buscamed.presentation.core.components.buttons.DefaultDialogTextButton
 import br.com.android.buscamed.presentation.core.state.dialog.MessageDialogState
 import br.com.android.buscamed.presentation.core.state.enumeration.EnumDialogType
+import br.com.android.buscamed.presentation.core.tags.GenericUIComponentTag
 import br.com.android.buscamed.presentation.core.theme.DialogTitleTextStyle
 import br.com.android.buscamed.presentation.core.theme.ValueTextStyle
 import com.google.firebase.Firebase
@@ -45,9 +47,11 @@ fun BaseMessageDialog(
 
     if (show) {
         AlertDialog(
+            modifier = Modifier.testTag(GenericUIComponentTag.MESSAGE_DIALOG_CONTAINER.name),
             onDismissRequest = onDismissRequest,
             title = {
                 Text(
+                    modifier = Modifier.testTag(GenericUIComponentTag.MESSAGE_DIALOG_TITLE.name),
                     text = stringResource(type.titleResId),
                     style = DialogTitleTextStyle
                 )
@@ -55,6 +59,7 @@ fun BaseMessageDialog(
             text = {
                 Box(modifier = Modifier.verticalScroll(state = scrollState)) {
                     Text(
+                        modifier = Modifier.testTag(GenericUIComponentTag.MESSAGE_DIALOG_TEXT.name),
                         text = message,
                         style = ValueTextStyle
                     )
@@ -64,6 +69,7 @@ fun BaseMessageDialog(
                 when (type) {
                     EnumDialogType.ERROR, EnumDialogType.INFORMATION -> {
                         DefaultDialogTextButton(
+                            modifier = Modifier.testTag(GenericUIComponentTag.MESSAGE_DIALOG_CONFIRM_BUTTON.name),
                             labelResId = R.string.label_ok,
                             onClick = {
                                 onDismissRequest()
@@ -74,6 +80,7 @@ fun BaseMessageDialog(
 
                     EnumDialogType.CONFIRMATION -> {
                         DefaultDialogTextButton(
+                            modifier = Modifier.testTag(GenericUIComponentTag.MESSAGE_DIALOG_CONFIRM_BUTTON.name),
                             labelResId = R.string.label_confirm,
                             onClick = {
                                 onDismissRequest()
@@ -87,6 +94,7 @@ fun BaseMessageDialog(
                 when (type) {
                     EnumDialogType.CONFIRMATION -> {
                         DefaultDialogTextButton(
+                            modifier = Modifier.testTag(GenericUIComponentTag.MESSAGE_DIALOG_CANCEL_BUTTON.name),
                             labelResId = R.string.label_cancel,
                             onClick = {
                                 onDismissRequest()

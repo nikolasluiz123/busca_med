@@ -1,4 +1,4 @@
-package br.com.android.buscamed
+package br.com.android.buscamed.usecase
 
 import br.com.android.buscamed.domain.core.validation.FieldValidationError
 import br.com.android.buscamed.domain.core.validation.GeneralValidationError
@@ -27,10 +27,6 @@ import org.junit.Test
 
 /**
  * Classe de testes unitários para o caso de uso [RegisterUserUseCase].
- *
- * Esta suite de testes valida o fluxo de registro de novos usuários, abrangendo
- * validações de campos (nome, e-mail e senha), persistência de dados após a 
- * autenticação bem-sucedida e o tratamento de exceções do serviço.
  */
 class RegisterUserUseCaseTest {
 
@@ -54,7 +50,7 @@ class RegisterUserUseCaseTest {
     }
 
     @Test
-    fun invokeShouldReturnErrorWhenNameIsEmpty() = runTest(testScheduler) {
+    fun shouldReturnErrorWhenNameIsEmpty() = runTest(testScheduler) {
         val user = User(null, "", "test@example.com", "password123")
 
         val result = registerUserUseCase(user)
@@ -66,7 +62,7 @@ class RegisterUserUseCaseTest {
     }
 
     @Test
-    fun invokeShouldReturnErrorWhenNameIsTooLong() = runTest(testScheduler) {
+    fun shouldReturnErrorWhenNameIsTooLong() = runTest(testScheduler) {
         val longName = "a".repeat(257)
         val user = User(null, longName, "test@example.com", "password123")
 
@@ -79,7 +75,7 @@ class RegisterUserUseCaseTest {
     }
 
     @Test
-    fun invokeShouldReturnErrorWhenEmailIsEmpty() = runTest(testScheduler) {
+    fun shouldReturnErrorWhenEmailIsEmpty() = runTest(testScheduler) {
         val user = User(null, "John Doe", "", "password123")
 
         val result = registerUserUseCase(user)
@@ -91,7 +87,7 @@ class RegisterUserUseCaseTest {
     }
 
     @Test
-    fun invokeShouldReturnErrorWhenEmailIsTooLong() = runTest(testScheduler) {
+    fun shouldReturnErrorWhenEmailIsTooLong() = runTest(testScheduler) {
         val longEmail = "a".repeat(250) + "@test.com"
         val user = User(null, "John Doe", longEmail, "password123")
 
@@ -104,7 +100,7 @@ class RegisterUserUseCaseTest {
     }
 
     @Test
-    fun invokeShouldReturnErrorWhenEmailFormatIsInvalid() = runTest(testScheduler) {
+    fun shouldReturnErrorWhenEmailFormatIsInvalid() = runTest(testScheduler) {
         val user = User(null, "John Doe", "invalid-email", "password123")
 
         val result = registerUserUseCase(user)
@@ -116,7 +112,7 @@ class RegisterUserUseCaseTest {
     }
 
     @Test
-    fun invokeShouldReturnErrorWhenPasswordIsEmpty() = runTest(testScheduler) {
+    fun shouldReturnErrorWhenPasswordIsEmpty() = runTest(testScheduler) {
         val user = User(null, "John Doe", "test@example.com", "")
 
         val result = registerUserUseCase(user)
@@ -128,7 +124,7 @@ class RegisterUserUseCaseTest {
     }
 
     @Test
-    fun invokeShouldReturnErrorWhenPasswordIsTooShort() = runTest(testScheduler) {
+    fun shouldReturnErrorWhenPasswordIsTooShort() = runTest(testScheduler) {
         val user = User(null, "John Doe", "test@example.com", "12345")
 
         val result = registerUserUseCase(user)
@@ -140,7 +136,7 @@ class RegisterUserUseCaseTest {
     }
 
     @Test
-    fun invokeShouldReturnErrorWhenPasswordIsTooLong() = runTest(testScheduler) {
+    fun shouldReturnErrorWhenPasswordIsTooLong() = runTest(testScheduler) {
         val longPassword = "a".repeat(4097)
         val user = User(null, "John Doe", "test@example.com", longPassword)
 
@@ -153,7 +149,7 @@ class RegisterUserUseCaseTest {
     }
 
     @Test
-    fun invokeShouldReturnMultipleErrorsWhenAllFieldsAreInvalid() = runTest(testScheduler) {
+    fun shouldReturnMultipleErrorsWhenAllFieldsAreInvalid() = runTest(testScheduler) {
         val user = User(null, "", "invalid-email", "123")
 
         val result = registerUserUseCase(user)
@@ -163,7 +159,7 @@ class RegisterUserUseCaseTest {
     }
 
     @Test
-    fun invokeShouldReturnSuccessAndSaveUserCorrectly() = runTest(testScheduler) {
+    fun shouldReturnSuccessAndSaveUserCorrectly() = runTest(testScheduler) {
         val userUid = "uid123"
         val user = User(null, "John Doe", "test@example.com", "password123")
         val credentials = UserCredentials(user.email, user.password!!)
@@ -183,7 +179,7 @@ class RegisterUserUseCaseTest {
     }
 
     @Test
-    fun invokeShouldReturnEmailAlreadyInUseErrorWhenServiceThrowsException() = runTest(testScheduler) {
+    fun shouldReturnEmailAlreadyInUseErrorWhenServiceThrowsException() = runTest(testScheduler) {
         val user = User(null, "John Doe", "test@example.com", "password123")
         val exception = DomainAuthException.EmailAlreadyInUse()
         coEvery { authenticationService.signUp(any()) } throws exception
@@ -197,7 +193,7 @@ class RegisterUserUseCaseTest {
     }
 
     @Test
-    fun invokeShouldReturnNetworkErrorWhenServiceThrowsException() = runTest(testScheduler) {
+    fun shouldReturnNetworkErrorWhenServiceThrowsException() = runTest(testScheduler) {
         val user = User(null, "John Doe", "test@example.com", "password123")
         val exception = DomainAuthException.NetworkError()
         coEvery { authenticationService.signUp(any()) } throws exception
@@ -211,7 +207,7 @@ class RegisterUserUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun invokeShouldPropagateGenericRuntimeExceptionFromService() = runTest(testScheduler) {
+    fun shouldPropagateGenericRuntimeExceptionFromService() = runTest(testScheduler) {
         val user = User(null, "John Doe", "test@example.com", "password123")
         coEvery { authenticationService.signUp(any()) } throws RuntimeException()
 
@@ -219,7 +215,7 @@ class RegisterUserUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun invokeShouldPropagateGenericRuntimeExceptionFromRepository() = runTest(testScheduler) {
+    fun shouldPropagateGenericRuntimeExceptionFromRepository() = runTest(testScheduler) {
         val user = User(null, "John Doe", "test@example.com", "password123")
         coEvery { authenticationService.signUp(any()) } returns "uid123"
         coEvery { userRepository.save(any()) } throws RuntimeException()

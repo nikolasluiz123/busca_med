@@ -1,4 +1,3 @@
-// br.com.android.buscamed.presentation.screen.login.LoginScreen.kt
 package br.com.android.buscamed.presentation.screen.login
 
 import androidx.compose.foundation.layout.Arrangement
@@ -15,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -76,6 +76,7 @@ fun LoginScreen(
             Modifier
                 .fillMaxSize()
                 .padding(padding)
+                .testTag(LoginTestTag.SCREEN_CONTAINER.name)
         ) {
             val (loadingRef, containerRef) = createRefs()
             Row(
@@ -114,9 +115,9 @@ fun LoginScreen(
                                 start.linkTo(parent.start)
                                 end.linkTo(parent.end)
                                 top.linkTo(parent.top)
-
                                 width = Dimension.fillToConstraints
-                            },
+                            }
+                            .testTag(LoginTestTag.EMAIL_FIELD.name),
                         field = state.email,
                         label = stringResource(R.string.login_screen_label_email),
                         keyboardOptions = EmailKeyboardOptions,
@@ -128,9 +129,9 @@ fun LoginScreen(
                                 start.linkTo(emailRef.start)
                                 end.linkTo(emailRef.end)
                                 top.linkTo(emailRef.bottom, margin = 8.dp)
-
                                 width = Dimension.fillToConstraints
-                            },
+                            }
+                            .testTag(LoginTestTag.PASSWORD_FIELD.name),
                         field = state.password,
                         label = stringResource(R.string.login_screen_label_password),
                         keyboardOptions = LastPasswordKeyboardOptions,
@@ -149,12 +150,11 @@ fun LoginScreen(
                             .constrainAs(loginButtonRef) {
                                 start.linkTo(parent.start)
                                 top.linkTo(passwordRef.bottom, margin = 8.dp)
-
                                 horizontalChainWeight = 0.45F
-
                                 width = Dimension.fillToConstraints
                             }
-                            .padding(start = 8.dp),
+                            .padding(start = 8.dp)
+                            .testTag(LoginTestTag.LOGIN_BUTTON.name),
                         label = stringResource(R.string.login_screen_label_button_login),
                         enabled = state.showLoading.not(),
                         onClickListener = {
@@ -168,11 +168,10 @@ fun LoginScreen(
                             .constrainAs(registerButtonRef) {
                                 end.linkTo(parent.end)
                                 top.linkTo(passwordRef.bottom, margin = 8.dp)
-
                                 horizontalChainWeight = 0.45F
-
                                 width = Dimension.fillToConstraints
-                            },
+                            }
+                            .testTag(LoginTestTag.REGISTER_BUTTON.name),
                         label = stringResource(R.string.login_screen_label_button_register),
                         enabled = state.showLoading.not(),
                         onClickListener = onRegisterClick

@@ -1,4 +1,4 @@
-package br.com.android.buscamed
+package br.com.android.buscamed.usecase
 
 import br.com.android.buscamed.domain.core.validation.FieldValidationError
 import br.com.android.buscamed.domain.core.validation.GeneralValidationError
@@ -43,7 +43,7 @@ class DefaultAuthenticationUseCaseTest {
     }
 
     @Test
-    fun invokeShouldReturnSuccessWhenCredentialsAreValidAndSignInSucceeds() = runTest(testScheduler) {
+    fun shouldReturnSuccessWhenCredentialsAreValidAndSignInSucceeds() = runTest(testScheduler) {
         val credentials = UserCredentials("user@example.com", "password123")
         coEvery { authenticationService.signIn(credentials) } returns Unit
 
@@ -54,7 +54,7 @@ class DefaultAuthenticationUseCaseTest {
     }
 
     @Test
-    fun invokeShouldReturnErrorWhenEmailIsEmpty() = runTest(testScheduler) {
+    fun shouldReturnErrorWhenEmailIsEmpty() = runTest(testScheduler) {
         val credentials = UserCredentials("", "password123")
 
         val result = defaultAuthenticationUseCase(credentials)
@@ -67,7 +67,7 @@ class DefaultAuthenticationUseCaseTest {
     }
 
     @Test
-    fun invokeShouldReturnErrorWhenPasswordIsEmpty() = runTest(testScheduler) {
+    fun shouldReturnErrorWhenPasswordIsEmpty() = runTest(testScheduler) {
         val credentials = UserCredentials("user@example.com", "")
 
         val result = defaultAuthenticationUseCase(credentials)
@@ -80,7 +80,7 @@ class DefaultAuthenticationUseCaseTest {
     }
 
     @Test
-    fun invokeShouldReturnMultipleErrorsWhenEmailAndPasswordAreEmpty() = runTest(testScheduler) {
+    fun shouldReturnMultipleErrorsWhenEmailAndPasswordAreEmpty() = runTest(testScheduler) {
         val credentials = UserCredentials("", "")
 
         val result = defaultAuthenticationUseCase(credentials)
@@ -100,7 +100,7 @@ class DefaultAuthenticationUseCaseTest {
     }
 
     @Test
-    fun invokeShouldReturnInvalidCredentialsErrorWhenServiceThrowsInvalidCredentials() = runTest(testScheduler) {
+    fun shouldReturnInvalidCredentialsErrorWhenServiceThrowsInvalidCredentials() = runTest(testScheduler) {
         val credentials = UserCredentials("user@example.com", "wrongpassword")
         val exception = DomainAuthException.InvalidCredentials()
         coEvery { authenticationService.signIn(credentials) } throws exception
@@ -114,7 +114,7 @@ class DefaultAuthenticationUseCaseTest {
     }
 
     @Test
-    fun invokeShouldReturnNetworkErrorWhenServiceThrowsNetworkError() = runTest(testScheduler) {
+    fun shouldReturnNetworkErrorWhenServiceThrowsNetworkError() = runTest(testScheduler) {
         val credentials = UserCredentials("user@example.com", "password123")
         val exception = DomainAuthException.NetworkError()
         coEvery { authenticationService.signIn(credentials) } throws exception
@@ -128,7 +128,7 @@ class DefaultAuthenticationUseCaseTest {
     }
 
     @Test(expected = DomainAuthException.InvalidEmail::class)
-    fun invokeShouldPropagateUnmappedDomainAuthException() = runTest(testScheduler) {
+    fun shouldPropagateUnmappedDomainAuthException() = runTest(testScheduler) {
         val credentials = UserCredentials("invalid-email", "password123")
         coEvery { authenticationService.signIn(credentials) } throws DomainAuthException.InvalidEmail()
 
@@ -136,7 +136,7 @@ class DefaultAuthenticationUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun invokeShouldPropagateGenericRuntimeException() = runTest(testScheduler) {
+    fun shouldPropagateGenericRuntimeException() = runTest(testScheduler) {
         val credentials = UserCredentials("user@example.com", "password123")
         coEvery { authenticationService.signIn(credentials) } throws RuntimeException()
 
