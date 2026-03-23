@@ -27,6 +27,24 @@ class RegisterUserUseCase(
     suspend operator fun invoke(user: User): UseCaseResult<Unit> = withContext(Dispatchers.IO) {
         val validationErrors = mutableListOf<ValidationError>()
 
+        val name = user.name.trim()
+
+        if (name.isEmpty()) {
+            validationErrors.add(
+                FieldValidationError(
+                    field = UserField.NAME,
+                    type = UserFieldErrorType.REQUIRED
+                )
+            )
+        } else if (name.length > UserField.NAME.maxLength) {
+            validationErrors.add(
+                FieldValidationError(
+                    field = UserField.NAME,
+                    type = UserFieldErrorType.TOO_LONG
+                )
+            )
+        }
+
         val email = user.email.trim()
         if (email.isEmpty()) {
             validationErrors.add(

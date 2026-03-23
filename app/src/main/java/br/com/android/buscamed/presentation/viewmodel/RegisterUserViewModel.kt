@@ -132,6 +132,12 @@ class RegisterUserViewModel @Inject constructor(
                     )
 
                     when (error.field) {
+                        UserField.NAME -> {
+                            _uiState.value = _uiState.value.copy(
+                                name = _uiState.value.name.copy(errorMessage = errorMessage)
+                            )
+                        }
+
                         UserField.EMAIL -> {
                             _uiState.value = _uiState.value.copy(
                                 email = _uiState.value.email.copy(errorMessage = errorMessage)
@@ -161,6 +167,10 @@ class RegisterUserViewModel @Inject constructor(
 
     private fun getFieldErrorMessage(type: UserFieldErrorType, field: UserField): String {
         val fieldLabel = when (field) {
+            UserField.NAME -> {
+                context.getString(R.string.register_user_screen_label_name)
+            }
+
             UserField.EMAIL -> {
                 context.getString(R.string.register_user_screen_label_email)
             }

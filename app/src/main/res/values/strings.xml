@@ -21,7 +21,7 @@
     <string name="validation_error_required_field">O campo %s é obrigatório</string>
     <string name="login_screen_validation_error_invalid_credentials">Credenciais inválidas. Verifique seu email e senha.</string>
     <string name="login_screen_validation_error_account_blocked">Conta bloqueada temporariamente.</string>
-    <string name="validation_error_network">Erro de rede. Verifique sua conexão.</string>
+    <string name="validation_error_network">Não foi possível realizar a operação, verifique sua conexão e tente novamente.</string>
     <string name="validation_error_unknown">Ocorreu um erro desconhecido. Tente novamente mais tarde.</string>
     <string name="register_user_screen_title_register_user">Um título ai</string>
     <string name="register_user_screen_title_edit_user">Outro título ai</string>
@@ -31,8 +31,11 @@
     <string name="validation_error_too_short">O campo %s deve ter ao menos %s caracteres</string>
     <string name="validation_error_too_long">O campo %s deve ter no máximo %s caracteres</string>
     <string name="register_user_screen_validation_error_email_in_use">Este e-mail já está em uso</string>
-    <string name="register_user_label_name">Nome</string>
+    <string name="register_user_screen_label_name_field">Nome *</string>
     <string name="label_add">Adicionar</string>
     <string name="label_save">Salvar</string>
     <string name="register_user_screen_success_message">Usuário salvo com sucesso</string>
+    <string name="register_user_screen_label_name">Nome</string>
+    <string name="register_screen_label_password_field">Senha *</string>
+    <string name="register_user_screen_label_email_field">E-mail *</string>
 </resources>

@@ -41,7 +41,6 @@ import br.com.android.buscamed.presentation.core.theme.SnackBarTextStyle
 import br.com.android.buscamed.presentation.state.RegisterUserUIState
 import br.com.android.buscamed.presentation.viewmodel.RegisterUserViewModel
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
@@ -153,7 +152,7 @@ fun RegisterUserScreen(
                                 width = Dimension.fillToConstraints
                             },
                         field = state.name,
-                        label = stringResource(R.string.register_user_label_name),
+                        label = stringResource(R.string.register_user_screen_label_name_field),
                         keyboardOptions = PersonNameKeyboardOptions
                     )
 
@@ -166,7 +165,7 @@ fun RegisterUserScreen(
                                 width = Dimension.fillToConstraints
                             },
                         field = state.email,
-                        label = stringResource(R.string.login_screen_label_email),
+                        label = stringResource(R.string.register_user_screen_label_email_field),
                         keyboardOptions = EmailKeyboardOptions
                     )
 
@@ -179,7 +178,7 @@ fun RegisterUserScreen(
                                 width = Dimension.fillToConstraints
                             },
                         field = state.password,
-                        label = stringResource(R.string.login_screen_label_password),
+                        label = stringResource(R.string.register_screen_label_password_field),
                         keyboardOptions = LastPasswordKeyboardOptions,
                         keyboardActions = KeyboardActions(
                             onDone = {
