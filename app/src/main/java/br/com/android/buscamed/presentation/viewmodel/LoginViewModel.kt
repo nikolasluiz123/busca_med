@@ -72,7 +72,10 @@ class LoginViewModel @Inject constructor(
 
             when (val result = authenticationUseCase(UserCredentials(email, password))) {
                 is UseCaseResult.Success -> onSuccess()
-                is UseCaseResult.Error -> showValidationMessages(result.errors)
+                is UseCaseResult.Error -> {
+                    logValidationWarnings(result.errors)
+                    showValidationMessages(result.errors)
+                }
             }
 
             _uiState.value.onToggleLoading()

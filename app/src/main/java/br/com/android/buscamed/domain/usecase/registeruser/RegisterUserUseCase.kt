@@ -4,27 +4,27 @@ import br.com.android.buscamed.domain.core.validation.FieldValidationError
 import br.com.android.buscamed.domain.core.validation.GeneralValidationError
 import br.com.android.buscamed.domain.core.validation.UseCaseResult
 import br.com.android.buscamed.domain.core.validation.ValidationError
+import br.com.android.buscamed.domain.exception.DomainAuthException
 import br.com.android.buscamed.domain.model.User
+import br.com.android.buscamed.domain.model.UserCredentials
 import br.com.android.buscamed.domain.repository.UserRepository
+import br.com.android.buscamed.domain.service.AuthenticationService
 import br.com.android.buscamed.domain.usecase.registeruser.enumeration.UserField
 import br.com.android.buscamed.domain.usecase.registeruser.enumeration.UserFieldErrorType
 import br.com.android.buscamed.domain.usecase.registeruser.enumeration.UserGeneralErrorType
-import com.google.firebase.FirebaseNetworkException
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthException
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.tasks.await
+import br.com.android.buscamed.injection.IoDispatcher
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class RegisterUserUseCase(
+class RegisterUserUseCase @Inject constructor(
     private val userRepository: UserRepository,
-    private val firebaseAuth: FirebaseAuth
+    private val authenticationService: AuthenticationService,
+    @param:IoDispatcher private val dispatcher: CoroutineDispatcher
 ) {
     private val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$".toRegex()
 
-    suspend operator fun invoke(user: User): UseCaseResult<Unit> = withContext(Dispatchers.IO) {
+    suspend operator fun invoke(user: User): UseCaseResult<Unit> = withContext(dispatcher) {
         val validationErrors = mutableListOf<ValidationError>()
 
         val name = user.name.trim()
@@ -98,20 +98,28 @@ class RegisterUserUseCase(
         }
 
         try {
-            val result = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
-            val firebaseUser = result.user!!
+            val userUid = authenticationService.signUp(UserCredentials(email, password))
+
             val userToSave = user.copy(
-                id = firebaseUser.uid,
+                id = userUid,
                 normalizedName = name.lowercase(),
                 password = null
             )
 
             userRepository.save(userToSave)
             return@withContext UseCaseResult.Success()
-        } catch (_: FirebaseAuthUserCollisionException) {
-            validationErrors.add(GeneralValidationError(UserGeneralErrorType.EMAIL_ALREADY_IN_USE))
-        } catch (_: FirebaseNetworkException) {
-            validationErrors.add(GeneralValidationError(UserGeneralErrorType.NETWORK_ERROR))
+        } catch (e: DomainAuthException) {
+            when (e) {
+                is DomainAuthException.EmailAlreadyInUse -> {
+                    validationErrors.add(GeneralValidationError(UserGeneralErrorType.EMAIL_ALREADY_IN_USE, e))
+                }
+
+                is DomainAuthException.NetworkError -> {
+                    validationErrors.add(GeneralValidationError(UserGeneralErrorType.NETWORK_ERROR, e))
+                }
+
+                else -> throw e
+            }
         }
 
         return@withContext UseCaseResult.Error(validationErrors)

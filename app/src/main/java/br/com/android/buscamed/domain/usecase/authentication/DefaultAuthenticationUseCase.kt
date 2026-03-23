@@ -4,21 +4,22 @@ import br.com.android.buscamed.domain.core.validation.FieldValidationError
 import br.com.android.buscamed.domain.core.validation.GeneralValidationError
 import br.com.android.buscamed.domain.core.validation.UseCaseResult
 import br.com.android.buscamed.domain.core.validation.ValidationError
+import br.com.android.buscamed.domain.exception.DomainAuthException
 import br.com.android.buscamed.domain.model.UserCredentials
+import br.com.android.buscamed.domain.service.AuthenticationService
 import br.com.android.buscamed.domain.usecase.authentication.enumeration.UserCredentialsFieldErrorType
 import br.com.android.buscamed.domain.usecase.authentication.enumeration.UserCredentialsFieldValidation
 import br.com.android.buscamed.domain.usecase.authentication.enumeration.UserCredentialsGeneralErrorType
-import com.google.firebase.FirebaseNetworkException
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthException
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.tasks.await
+import br.com.android.buscamed.injection.IoDispatcher
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class DefaultAuthenticationUseCase(
-    private val firebaseAuth: FirebaseAuth
+class DefaultAuthenticationUseCase @Inject constructor(
+    private val authenticationService: AuthenticationService,
+    @param:IoDispatcher private val dispatcher: CoroutineDispatcher
 ) {
-    suspend operator fun invoke(credentials: UserCredentials): UseCaseResult<Unit> = withContext(Dispatchers.IO) {
+    suspend operator fun invoke(credentials: UserCredentials): UseCaseResult<Unit> = withContext(dispatcher) {
         val validationErrors = mutableListOf<ValidationError>()
 
         if (credentials.email.trim().isEmpty()) {
@@ -44,18 +45,16 @@ class DefaultAuthenticationUseCase(
         }
 
         try {
-            firebaseAuth.signInWithEmailAndPassword(credentials.email, credentials.password).await()
+            authenticationService.signIn(credentials)
             return@withContext UseCaseResult.Success()
-        } catch (e: FirebaseAuthException) {
-            val errorType = when (e.errorCode) {
-                "ERROR_INVALID_CREDENTIAL" -> UserCredentialsGeneralErrorType.INVALID_CREDENTIALS
-                "ERROR_USER_DISABLED" -> UserCredentialsGeneralErrorType.ACCOUNT_BLOCKED
+        } catch (e: DomainAuthException) {
+            val errorType = when (e) {
+                is DomainAuthException.InvalidCredentials -> UserCredentialsGeneralErrorType.INVALID_CREDENTIALS
+                is DomainAuthException.NetworkError -> UserCredentialsGeneralErrorType.NETWORK_ERROR
                 else -> throw e
             }
 
-            validationErrors.add(GeneralValidationError(errorType))
-        } catch (_: FirebaseNetworkException) {
-            validationErrors.add(GeneralValidationError(UserCredentialsGeneralErrorType.NETWORK_ERROR))
+            validationErrors.add(GeneralValidationError(errorType, e))
         }
 
         return@withContext UseCaseResult.Error(validationErrors)

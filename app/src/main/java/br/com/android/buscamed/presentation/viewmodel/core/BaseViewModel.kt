@@ -4,6 +4,9 @@ import android.util.Log
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.android.buscamed.domain.core.validation.FieldValidationError
+import br.com.android.buscamed.domain.core.validation.GeneralValidationError
+import br.com.android.buscamed.domain.core.validation.ValidationError
 import br.com.android.buscamed.presentation.core.state.dialog.MessageDialogState
 import br.com.android.buscamed.presentation.core.state.field.DefaultTextField
 import br.com.android.buscamed.presentation.core.extensions.parseDouble
@@ -23,7 +26,25 @@ abstract class BaseViewModel: ViewModel() {
     protected fun handleUnexpectedError(throwable: Throwable) {
         val message = getErrorMessageFrom(throwable)
         onShowErrorDialog(message)
-        Log.e(javaClass.simpleName, throwable.stackTraceToString())
+        Log.e(javaClass.simpleName, "Erro inesperado capturado: ${throwable.message}", throwable)
+    }
+
+    protected fun logValidationWarnings(errors: List<ValidationError>) {
+        errors.forEach { error ->
+            when (error) {
+                is GeneralValidationError<*> if error.cause != null -> {
+                    Log.w(javaClass.simpleName, "Aviso de regra de negócio/domínio: ${error.type}", error.cause)
+                }
+
+                is FieldValidationError<*, *> -> {
+                    Log.w(javaClass.simpleName, "Aviso de validação de campo: $error")
+                }
+
+                else -> {
+                    Log.w(javaClass.simpleName, "Aviso de validação desconhecido: $error")
+                }
+            }
+        }
     }
 
     protected fun launch(block: suspend () -> Unit) = viewModelScope.launch(exceptionHandler) {

@@ -1,13 +1,12 @@
 package br.com.android.buscamed.data.datasource.firestore.core
 
-import com.google.firebase.Firebase
 import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
-abstract class FirestoreDataSource {
-    protected val db = Firebase.firestore("dev-db")
-
+abstract class FirestoreDataSource(
+    protected val db: FirebaseFirestore
+) {
     protected suspend fun getServerTime(): Long {
         val dummyDocRef = db.collection("serverTime").document("timestamp")
 

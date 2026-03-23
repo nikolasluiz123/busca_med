@@ -124,6 +124,7 @@ class RegisterUserViewModel @Inject constructor(
                 }
 
                 is UseCaseResult.Error -> {
+                    logValidationWarnings(result.errors)
                     showValidationMessages(result.errors)
                     onFailure()
                 }
