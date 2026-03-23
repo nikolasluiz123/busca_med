@@ -100,10 +100,8 @@ class RegisterUserViewModel @Inject constructor(
         }
     }
 
-    fun save(onSuccess: () -> Unit) {
+    fun save(onSuccess: () -> Unit, onFailure: () -> Unit) {
         viewModelScope.launch {
-            _uiState.value.onToggleLoading()
-
             val user = User(
                 id = _uiState.value.userId,
                 name = _uiState.value.name.value,
@@ -112,11 +110,15 @@ class RegisterUserViewModel @Inject constructor(
             )
 
             when (val result = registerUserUseCase(user)) {
-                is UseCaseResult.Success -> onSuccess()
-                is UseCaseResult.Error -> showValidationMessages(result.errors)
-            }
+                is UseCaseResult.Success -> {
+                    onSuccess()
+                }
 
-            _uiState.value.onToggleLoading()
+                is UseCaseResult.Error -> {
+                    showValidationMessages(result.errors)
+                    onFailure()
+                }
+            }
         }
     }
 

@@ -6,7 +6,7 @@ import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.tasks.await
 
 abstract class FirestoreDataSource {
-    protected val db = Firebase.firestore
+    protected val db = Firebase.firestore("dev-db")
 
     protected suspend fun getServerTime(): Long {
         val dummyDocRef = db.collection("serverTime").document("timestamp")

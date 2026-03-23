@@ -1,5 +1,6 @@
 package br.com.android.buscamed.presentation.screen.registeruser
 
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,9 +10,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -19,6 +27,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.android.buscamed.R
+import br.com.android.buscamed.presentation.core.callbacks.OnSave
 import br.com.android.buscamed.presentation.core.components.buttons.fab.FloatingActionButtonSave
 import br.com.android.buscamed.presentation.core.components.dialog.BaseMessageDialog
 import br.com.android.buscamed.presentation.core.components.fields.text.OutlinedTextFieldPasswordValidation
@@ -28,8 +37,12 @@ import br.com.android.buscamed.presentation.core.components.topbar.SimpleTopAppB
 import br.com.android.buscamed.presentation.core.keyboard.EmailKeyboardOptions
 import br.com.android.buscamed.presentation.core.keyboard.LastPasswordKeyboardOptions
 import br.com.android.buscamed.presentation.core.keyboard.PersonNameKeyboardOptions
+import br.com.android.buscamed.presentation.core.theme.SnackBarTextStyle
 import br.com.android.buscamed.presentation.state.RegisterUserUIState
 import br.com.android.buscamed.presentation.viewmodel.RegisterUserViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 @Composable
 fun RegisterUserScreen(
@@ -42,9 +55,8 @@ fun RegisterUserScreen(
     RegisterUserScreen(
         state = state,
         onBackClick = onBackClick,
-        onSaveClick = {
-            viewModel.save(onSuccess = onSaveSuccess)
-        }
+        onSaveClick = viewModel::save,
+        onSaveSuccess = onSaveSuccess
     )
 }
 
@@ -52,9 +64,13 @@ fun RegisterUserScreen(
 fun RegisterUserScreen(
     state: RegisterUserUIState,
     onBackClick: () -> Unit,
-    onSaveClick: () -> Unit
+    onSaveClick: OnSave,
+    onSaveSuccess: () -> Unit
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
+    val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
         topBar = {
@@ -64,6 +80,13 @@ fun RegisterUserScreen(
                 onBackClick = onBackClick
             )
         },
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState) {
+                Snackbar(modifier = Modifier.padding(8.dp)) {
+                    Text(text = it.visuals.message, style = SnackBarTextStyle)
+                }
+            }
+        },
         floatingActionButton = {
             FloatingActionButtonSave(
                 iconColor = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -71,7 +94,16 @@ fun RegisterUserScreen(
                 onClick = {
                     keyboardController?.hide()
                     state.onToggleLoading()
-                    onSaveClick()
+                    onSaveClick.execute(
+                        onSuccess = {
+                            state.onToggleLoading()
+                            showSuccessMessage(coroutineScope, snackbarHostState, context)
+                            onSaveSuccess()
+                        },
+                        onFailure = {
+                            state.onToggleLoading()
+                        }
+                    )
                 }
             )
         }
@@ -152,12 +184,34 @@ fun RegisterUserScreen(
                         keyboardActions = KeyboardActions(
                             onDone = {
                                 keyboardController?.hide()
-                                onSaveClick()
+                                state.onToggleLoading()
+                                onSaveClick.execute(
+                                    onSuccess = {
+                                        state.onToggleLoading()
+                                        showSuccessMessage(coroutineScope, snackbarHostState, context)
+                                        onSaveSuccess()
+                                    },
+                                    onFailure = {
+                                        state.onToggleLoading()
+                                    }
+                                )
                             }
                         )
                     )
                 }
             }
         }
+    }
+}
+
+private fun showSuccessMessage(
+    coroutineScope: CoroutineScope,
+    snackbarHostState: SnackbarHostState,
+    context: Context
+) {
+    coroutineScope.launch {
+        snackbarHostState.showSnackbar(
+            message = context.getString(R.string.register_user_screen_success_message)
+        )
     }
 }
