@@ -12,6 +12,7 @@ import br.com.android.buscamed.domain.usecase.authentication.DefaultAuthenticati
 import br.com.android.buscamed.domain.usecase.authentication.enumeration.UserCredentialsFieldErrorType
 import br.com.android.buscamed.domain.usecase.authentication.enumeration.UserCredentialsFieldValidation
 import br.com.android.buscamed.domain.usecase.authentication.enumeration.UserCredentialsGeneralErrorType
+import br.com.android.buscamed.presentation.core.components.dialog.showErrorDialog
 import br.com.android.buscamed.presentation.core.state.enumeration.EnumDialogType
 import br.com.android.buscamed.presentation.state.LoginUIState
 import br.com.android.buscamed.presentation.viewmodel.core.BaseViewModel
@@ -54,8 +55,16 @@ class LoginViewModel @Inject constructor(
         )
     }
 
+    override fun getErrorMessageFrom(throwable: Throwable): String {
+        return context.getString(R.string.validation_error_unknown)
+    }
+
+    override fun onShowErrorDialog(message: String) {
+        _uiState.value.messageDialogState.onShowDialog?.showErrorDialog(message = message)
+    }
+
     fun login(onSuccess: () -> Unit) {
-        viewModelScope.launch {
+        launch {
             _uiState.value.onToggleLoading()
 
             val email = _uiState.value.email.value

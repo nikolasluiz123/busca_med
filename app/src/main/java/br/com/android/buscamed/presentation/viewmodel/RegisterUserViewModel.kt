@@ -14,6 +14,7 @@ import br.com.android.buscamed.domain.usecase.registeruser.RegisterUserUseCase
 import br.com.android.buscamed.domain.usecase.registeruser.enumeration.UserField
 import br.com.android.buscamed.domain.usecase.registeruser.enumeration.UserFieldErrorType
 import br.com.android.buscamed.domain.usecase.registeruser.enumeration.UserGeneralErrorType
+import br.com.android.buscamed.presentation.core.components.dialog.showErrorDialog
 import br.com.android.buscamed.presentation.core.extensions.fromJsonNavParamToArgs
 import br.com.android.buscamed.presentation.core.state.enumeration.EnumDialogType
 import br.com.android.buscamed.presentation.screen.registeruser.RegisterUserScreenArgs
@@ -82,6 +83,14 @@ class RegisterUserViewModel @Inject constructor(
         )
     }
 
+    override fun getErrorMessageFrom(throwable: Throwable): String {
+        return context.getString(R.string.validation_error_unknown)
+    }
+
+    override fun onShowErrorDialog(message: String) {
+        _uiState.value.messageDialogState.onShowDialog?.showErrorDialog(message = message)
+    }
+
     private fun loadUserData() {
         val userId = _uiState.value.userId ?: return
 
@@ -101,7 +110,7 @@ class RegisterUserViewModel @Inject constructor(
     }
 
     fun save(onSuccess: () -> Unit, onFailure: () -> Unit) {
-        viewModelScope.launch {
+        launch {
             val user = User(
                 id = _uiState.value.userId,
                 name = _uiState.value.name.value,

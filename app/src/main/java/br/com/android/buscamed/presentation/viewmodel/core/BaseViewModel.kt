@@ -1,14 +1,34 @@
 package br.com.android.buscamed.presentation.viewmodel.core
 
+import android.util.Log
 import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import br.com.android.buscamed.presentation.core.state.dialog.MessageDialogState
 import br.com.android.buscamed.presentation.core.state.field.DefaultTextField
 import br.com.android.buscamed.presentation.core.extensions.parseDouble
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.launch
 
 abstract class BaseViewModel: ViewModel() {
 
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        handleUnexpectedError(throwable)
+    }
+
     protected abstract fun initialLoadUIState()
+    protected abstract fun getErrorMessageFrom(throwable: Throwable): String
+    protected abstract fun onShowErrorDialog(message: String)
+
+    protected fun handleUnexpectedError(throwable: Throwable) {
+        val message = getErrorMessageFrom(throwable)
+        onShowErrorDialog(message)
+        Log.e(javaClass.simpleName, throwable.stackTraceToString())
+    }
+
+    protected fun launch(block: suspend () -> Unit) = viewModelScope.launch(exceptionHandler) {
+        block()
+    }
 
     protected fun createMessageDialogState(
         getCurrentState: () -> MessageDialogState,
