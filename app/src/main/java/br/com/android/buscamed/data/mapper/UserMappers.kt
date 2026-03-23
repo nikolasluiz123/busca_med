@@ -7,6 +7,7 @@ fun UserDocument.toUser(): User {
     return User(
         id = id,
         name = name,
+        normalizedName = normalizedName,
         email = email,
         password = null
     )
@@ -16,6 +17,7 @@ fun User.toUserDocument(): UserDocument {
     return UserDocument(
         id = id,
         name = name,
+        normalizedName = normalizedName,
         email = email
     )
 }

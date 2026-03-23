@@ -100,8 +100,13 @@ class RegisterUserUseCase(
         try {
             val result = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
             val firebaseUser = result.user!!
+            val userToSave = user.copy(
+                id = firebaseUser.uid,
+                normalizedName = name.lowercase(),
+                password = null
+            )
 
-            userRepository.save(user.copy(id = firebaseUser.uid, password = null))
+            userRepository.save(userToSave)
             return@withContext UseCaseResult.Success()
         } catch (_: FirebaseAuthUserCollisionException) {
             validationErrors.add(GeneralValidationError(UserGeneralErrorType.EMAIL_ALREADY_IN_USE))

@@ -6,5 +6,6 @@ data class UserDocument(
     @DocumentId
     override val id: String? = null,
     val name: String = "",
+    val normalizedName: String = "",
     val email: String = ""
 ): FirestoreDocument()

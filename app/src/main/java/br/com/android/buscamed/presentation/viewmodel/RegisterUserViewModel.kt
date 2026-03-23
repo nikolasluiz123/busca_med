@@ -115,7 +115,7 @@ class RegisterUserViewModel @Inject constructor(
                 id = _uiState.value.userId,
                 name = _uiState.value.name.value,
                 email = _uiState.value.email.value,
-                password = _uiState.value.password.value.ifBlank { null }
+                password = _uiState.value.password.value
             )
 
             when (val result = registerUserUseCase(user)) {
