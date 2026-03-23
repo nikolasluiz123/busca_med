@@ -50,14 +50,12 @@ class DefaultAuthenticationUseCase(
             val errorType = when (e.errorCode) {
                 "ERROR_INVALID_CREDENTIAL" -> UserCredentialsGeneralErrorType.INVALID_CREDENTIALS
                 "ERROR_USER_DISABLED" -> UserCredentialsGeneralErrorType.ACCOUNT_BLOCKED
-                else -> UserCredentialsGeneralErrorType.UNKNOWN_ERROR
+                else -> throw e
             }
 
             validationErrors.add(GeneralValidationError(errorType))
         } catch (_: FirebaseNetworkException) {
             validationErrors.add(GeneralValidationError(UserCredentialsGeneralErrorType.NETWORK_ERROR))
-        } catch (_: Exception) {
-            validationErrors.add(GeneralValidationError(UserCredentialsGeneralErrorType.UNKNOWN_ERROR))
         }
 
         return@withContext UseCaseResult.Error(validationErrors)

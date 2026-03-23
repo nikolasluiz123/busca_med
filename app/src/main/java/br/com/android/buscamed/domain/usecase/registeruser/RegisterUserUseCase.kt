@@ -99,22 +99,14 @@ class RegisterUserUseCase(
 
         try {
             val result = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
-            val firebaseUser = result.user
+            val firebaseUser = result.user!!
 
-            if (firebaseUser != null) {
-                userRepository.save(user.copy(id = firebaseUser.uid, password = null))
-                return@withContext UseCaseResult.Success()
-            } else {
-                validationErrors.add(GeneralValidationError(UserGeneralErrorType.UNKNOWN_ERROR))
-            }
+            userRepository.save(user.copy(id = firebaseUser.uid, password = null))
+            return@withContext UseCaseResult.Success()
         } catch (_: FirebaseAuthUserCollisionException) {
             validationErrors.add(GeneralValidationError(UserGeneralErrorType.EMAIL_ALREADY_IN_USE))
         } catch (_: FirebaseNetworkException) {
             validationErrors.add(GeneralValidationError(UserGeneralErrorType.NETWORK_ERROR))
-        } catch (_: FirebaseAuthException) {
-            validationErrors.add(GeneralValidationError(UserGeneralErrorType.UNKNOWN_ERROR))
-        } catch (_: Exception) {
-            validationErrors.add(GeneralValidationError(UserGeneralErrorType.UNKNOWN_ERROR))
         }
 
         return@withContext UseCaseResult.Error(validationErrors)

@@ -140,7 +140,6 @@ class LoginViewModel @Inject constructor(
             UserCredentialsGeneralErrorType.INVALID_CREDENTIALS -> context.getString(R.string.login_screen_validation_error_invalid_credentials)
             UserCredentialsGeneralErrorType.ACCOUNT_BLOCKED -> context.getString(R.string.login_screen_validation_error_account_blocked)
             UserCredentialsGeneralErrorType.NETWORK_ERROR -> context.getString(R.string.validation_error_network)
-            UserCredentialsGeneralErrorType.UNKNOWN_ERROR -> context.getString(R.string.validation_error_unknown)
         }
     }
 }

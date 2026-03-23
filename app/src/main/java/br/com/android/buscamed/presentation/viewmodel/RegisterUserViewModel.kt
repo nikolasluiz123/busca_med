@@ -225,10 +225,6 @@ class RegisterUserViewModel @Inject constructor(
             UserGeneralErrorType.NETWORK_ERROR -> {
                 context.getString(R.string.validation_error_network)
             }
-
-            UserGeneralErrorType.UNKNOWN_ERROR -> {
-                context.getString(R.string.validation_error_unknown)
-            }
         }
     }
 }
