@@ -17,7 +17,7 @@ fun User.toUserDocument(): UserDocument {
     return UserDocument(
         id = id,
         name = name,
-        normalizedName = normalizedName,
+        normalizedName = normalizedName ?: "",
         email = email
     )
 }
