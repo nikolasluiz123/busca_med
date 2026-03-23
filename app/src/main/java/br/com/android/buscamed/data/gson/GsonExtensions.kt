@@ -15,6 +15,16 @@ import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
 
+/**
+ * Configura um [GsonBuilder] com os adaptadores de tipo padrão do projeto.
+ * 
+ * Registra adaptadores para classes de data e hora do Java 8 (JSR-310), como
+ * [LocalDateTime], [LocalDate], [Instant], etc., garantindo compatibilidade
+ * na conversão de JSON para objetos de dados.
+ * 
+ * @param serializeNulls Define se campos com valor null devem ser incluídos no JSON resultante.
+ * @return Uma instância configurada de [Gson].
+ */
 fun GsonBuilder.defaultGSon(serializeNulls: Boolean = false): Gson {
     val builder = this.registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeTypeAdapter())
         .registerTypeAdapter(LocalDate::class.java, LocalDateTypeAdapter())

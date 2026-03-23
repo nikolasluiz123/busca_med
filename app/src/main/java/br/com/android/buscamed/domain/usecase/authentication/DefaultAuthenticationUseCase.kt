@@ -15,10 +15,29 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+/**
+ * Caso de uso responsável por realizar a autenticação do usuário no sistema.
+ *
+ * Esta classe orquestra a validação das credenciais de entrada e a integração
+ * com o serviço de autenticação, retornando um resultado padronizado.
+ *
+ * @property authenticationService Serviço de autenticação injetado.
+ * @property dispatcher O dispatcher de corrotina utilizado para garantir que a lógica seja executada em uma thread de IO.
+ */
 class DefaultAuthenticationUseCase @Inject constructor(
     private val authenticationService: AuthenticationService,
     @param:IoDispatcher private val dispatcher: CoroutineDispatcher
 ) {
+    /**
+     * Executa a lógica de autenticação.
+     *
+     * Valida os campos obrigatórios (e-mail e senha) e tenta realizar o login.
+     * Caso ocorram erros de validação ou falhas na autenticação, a função retorna
+     * uma lista de [ValidationError].
+     *
+     * @param credentials Objeto contendo o e-mail e a senha informados pelo usuário.
+     * @return Um [UseCaseResult] indicando o sucesso da operação ou os erros encontrados.
+     */
     suspend operator fun invoke(credentials: UserCredentials): UseCaseResult<Unit> = withContext(dispatcher) {
         val validationErrors = mutableListOf<ValidationError>()
 

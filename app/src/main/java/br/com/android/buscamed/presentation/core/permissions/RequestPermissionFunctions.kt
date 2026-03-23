@@ -10,6 +10,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import br.com.android.buscamed.presentation.core.permissions.PermissionUtils.requestMultiplePermissionsLauncher
 
+/**
+ * Solicita todas as permissões essenciais para o funcionamento do aplicativo.
+ *
+ * Esta função composable avalia as necessidades de permissão (notificação, câmera e mídia)
+ * com base na versão do sistema operacional e no estado atual das concessões,
+ * disparando as solicitações necessárias de forma centralizada.
+ *
+ * @param context O contexto da aplicação utilizado para verificação de permissões existentes.
+ */
 @Composable
 fun RequestAllPermissions(context: Context) {
     val standardPermissionLauncher = requestMultiplePermissionsLauncher()
@@ -26,6 +35,12 @@ fun RequestAllPermissions(context: Context) {
     }
 }
 
+/**
+ * Adiciona as permissões de acesso a mídia à lista de solicitações pendentes.
+ *
+ * A função adapta a solicitação conforme o nível da API do dispositivo, lidando
+ * com as mudanças introduzidas no Android 13 (Tiramisu) e Android 14 (Upside Down Cake).
+ */
 private fun addMediaPermissions(
     context: Context,
     permissions: MutableList<String>
@@ -48,6 +63,9 @@ private fun addMediaPermissions(
         .forEach { permissions.add(it) }
 }
 
+/**
+ * Adiciona a permissão de uso da câmera à lista de solicitações pendentes.
+ */
 private fun addCameraPermission(
     context: Context,
     permissions: MutableList<String>
@@ -57,6 +75,11 @@ private fun addCameraPermission(
     }
 }
 
+/**
+ * Adiciona a permissão de postagem de notificações à lista de solicitações pendentes.
+ *
+ * Esta função verifica se a permissão é necessária com base na versão do sistema (API 33+).
+ */
 private fun addNotificationsPermission(
     context: Context,
     permissions: MutableList<String>

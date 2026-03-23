@@ -17,6 +17,16 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+/**
+ * Caso de uso responsável pelo registro de novos usuários no sistema.
+ *
+ * Realiza as validações de regras de negócio para os dados do usuário, cria a conta
+ * no serviço de autenticação e persiste as informações no banco de dados.
+ *
+ * @property userRepository Repositório para persistência dos dados do usuário.
+ * @property authenticationService Serviço para criação da conta de acesso.
+ * @property dispatcher O dispatcher de corrotina utilizado para garantir a execução em uma thread de IO.
+ */
 class RegisterUserUseCase @Inject constructor(
     private val userRepository: UserRepository,
     private val authenticationService: AuthenticationService,
@@ -24,6 +34,16 @@ class RegisterUserUseCase @Inject constructor(
 ) {
     private val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$".toRegex()
 
+    /**
+     * Executa a lógica de registro de usuário.
+     *
+     * A função valida campos como nome, e-mail e senha antes de processar o cadastro.
+     * Caso alguma regra de negócio seja violada ou ocorra um erro nos serviços,
+     * retorna uma lista de [ValidationError].
+     *
+     * @param user Objeto [User] contendo as informações para o novo cadastro.
+     * @return Um [UseCaseResult] indicando o sucesso da operação ou as falhas encontradas.
+     */
     suspend operator fun invoke(user: User): UseCaseResult<Unit> = withContext(dispatcher) {
         val validationErrors = mutableListOf<ValidationError>()
 

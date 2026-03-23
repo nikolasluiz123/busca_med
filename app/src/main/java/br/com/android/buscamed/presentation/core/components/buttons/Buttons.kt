@@ -16,6 +16,16 @@ import androidx.compose.ui.unit.dp
 import br.com.android.buscamed.presentation.core.theme.ButtonTextStyle
 import br.com.android.buscamed.presentation.core.theme.TextButtonTextStyle
 
+/**
+ * Botão preenchido padrão utilizado para ações principais.
+ *
+ * @param label Texto exibido no botão.
+ * @param onClickListener Função callback executada ao clicar no botão.
+ * @param modifier Modificador de layout.
+ * @param enabled Define se o botão está habilitado para interação.
+ * @param textStyle Estilo de texto a ser aplicado ao rótulo.
+ * @param colors Configuração de cores para os estados do botão.
+ */
 @Composable
 fun BaseButton(
     label: String,
@@ -43,6 +53,16 @@ fun BaseButton(
     }
 }
 
+/**
+ * Botão com contorno (outlined) utilizado para ações secundárias.
+ *
+ * @param label Texto exibido no botão.
+ * @param onClickListener Função callback executada ao clicar no botão.
+ * @param modifier Modificador de layout.
+ * @param enabled Define se o botão está habilitado.
+ * @param textStyle Estilo de texto a ser aplicado ao rótulo.
+ * @param border Configuração da borda do botão.
+ */
 @Composable
 fun BaseOutlinedButton(
     label: String,
@@ -65,6 +85,16 @@ fun BaseOutlinedButton(
     }
 }
 
+/**
+ * Botão de texto simples utilizado para ações de menor destaque.
+ *
+ * @param label Texto exibido no botão.
+ * @param onClickListener Função callback executada ao clicar no botão.
+ * @param modifier Modificador de layout.
+ * @param colors Configuração de cores do botão.
+ * @param enabled Define se o botão está habilitado.
+ * @param textStyle Estilo de texto a ser aplicado ao rótulo.
+ */
 @Composable
 fun BaseTextButton(
     label: String,
@@ -84,6 +114,14 @@ fun BaseTextButton(
     }
 }
 
+/**
+ * Botão de texto específico para diálogos de sistema.
+ *
+ * @param labelResId Identificador do recurso de string para o rótulo.
+ * @param onClick Função callback executada ao clicar no botão.
+ * @param modifier Modificador de layout.
+ * @param colors Configuração de cores do botão.
+ */
 @Composable
 fun DefaultDialogTextButton(
     labelResId: Int,

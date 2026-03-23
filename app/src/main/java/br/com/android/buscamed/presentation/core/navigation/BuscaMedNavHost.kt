@@ -10,6 +10,15 @@ import br.com.android.buscamed.presentation.screen.registeruser.RegisterUserScre
 import br.com.android.buscamed.presentation.screen.registeruser.navigateToRegisterUserScreen
 import br.com.android.buscamed.presentation.screen.registeruser.registerUserScreen
 
+/**
+ * Host de navegação principal do aplicativo BuscaMed.
+ *
+ * Esta função configura o gráfico de navegação do Compose, definindo as rotas,
+ * as telas correspondentes e as transições entre elas.
+ *
+ * @param modifier Modificador de layout para o contêiner de navegação.
+ * @param navController Controlador responsável por gerenciar a pilha de telas.
+ */
 @Composable
 fun BuscaMedNavHost(
     modifier: Modifier = Modifier,

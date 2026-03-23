@@ -6,6 +6,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import br.com.android.buscamed.R
 
+/**
+ * Botão de ícone padrão para navegação de retorno (voltar).
+ *
+ * Utiliza o ícone de seta para a esquerda e define uma descrição de acessibilidade padrão
+ * ("Voltar"). É comumente utilizado em TopAppBars.
+ *
+ * @param modifier Modificador de layout.
+ * @param iconColor Cor aplicada ao ícone.
+ * @param enabled Define se o botão está ativo.
+ * @param contentDescriptionResId Recurso de string para acessibilidade.
+ * @param onClick Função callback executada ao clicar para voltar.
+ */
 @Composable
 fun IconButtonArrowBack(
     modifier: Modifier = Modifier,

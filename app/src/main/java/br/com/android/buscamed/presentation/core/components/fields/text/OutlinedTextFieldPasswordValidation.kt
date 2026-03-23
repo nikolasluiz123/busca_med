@@ -22,6 +22,19 @@ import br.com.android.buscamed.presentation.core.state.field.DefaultTextField
 import br.com.android.buscamed.presentation.core.theme.InputTextStyle
 import kotlin.properties.Delegates
 
+/**
+ * Campo de texto especializado para senhas com alternância de visibilidade.
+ * 
+ * Esta função gerencia o estado de ocultação/exibição da senha e utiliza 
+ * o [DefaultTextField] para controle de valor e erros.
+ *
+ * @param field Estado do campo de texto (valor e erro).
+ * @param label Rótulo textual do campo.
+ * @param modifier Modificador de layout.
+ * @param keyboardOptions Configurações do teclado virtual.
+ * @param maxLength Limite máximo de caracteres.
+ * @param keyboardActions Ações do teclado.
+ */
 @Composable
 fun OutlinedTextFieldPasswordValidation(
     field: DefaultTextField,
@@ -43,6 +56,9 @@ fun OutlinedTextFieldPasswordValidation(
     )
 }
 
+/**
+ * Sobrecarga que permite um rótulo customizado via Composable.
+ */
 @Composable
 fun OutlinedTextFieldPasswordValidation(
     field: DefaultTextField,
@@ -64,6 +80,9 @@ fun OutlinedTextFieldPasswordValidation(
     )
 }
 
+/**
+ * Implementação base do campo de senha que gerencia o ícone de visibilidade.
+ */
 @Composable
 fun OutlinedTextFieldPasswordValidation(
     value: String,

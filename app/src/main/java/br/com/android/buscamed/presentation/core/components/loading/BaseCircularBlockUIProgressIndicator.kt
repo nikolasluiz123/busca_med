@@ -15,6 +15,16 @@ import androidx.compose.ui.window.Popup
 import androidx.compose.ui.zIndex
 import androidx.constraintlayout.compose.ConstraintLayout
 
+/**
+ * Indicador de progresso circular que bloqueia a interação com a interface do usuário.
+ *
+ * Esta função exibe um overlay semitransparente sobre toda a tela, impedindo cliques
+ * em elementos de fundo enquanto uma operação assíncrona está em curso.
+ *
+ * @param show Controla a visibilidade do indicador e do bloqueio de tela.
+ * @param label Texto informativo exibido abaixo do círculo de progresso.
+ * @param modifier Modificador de layout para o contêiner do indicador.
+ */
 @Composable
 fun BaseCircularBlockUIProgressIndicator(
     show: Boolean,

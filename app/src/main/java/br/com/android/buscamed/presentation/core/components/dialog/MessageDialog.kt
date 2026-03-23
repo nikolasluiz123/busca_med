@@ -18,8 +18,15 @@ import br.com.android.buscamed.presentation.core.state.enumeration.EnumDialogTyp
 import br.com.android.buscamed.presentation.core.tags.GenericUIComponentTag
 import br.com.android.buscamed.presentation.core.theme.DialogTitleTextStyle
 import br.com.android.buscamed.presentation.core.theme.ValueTextStyle
-import com.google.firebase.Firebase
 
+/**
+ * Componente de diálogo de mensagem baseado em estado.
+ *
+ * Facilita a exibição de diálogos utilizando o [MessageDialogState], mapeando
+ * automaticamente as propriedades do estado para os parâmetros do componente visual.
+ *
+ * @param state O estado que controla a visibilidade e o conteúdo do diálogo.
+ */
 @Composable
 fun BaseMessageDialog(state: MessageDialogState) {
     BaseMessageDialog(
@@ -32,6 +39,21 @@ fun BaseMessageDialog(state: MessageDialogState) {
     )
 }
 
+/**
+ * Componente de diálogo de mensagem padronizado (AlertDialog).
+ *
+ * Provê uma interface consistente para exibição de erros, confirmações e informações,
+ * com suporte a rolagem de texto e botões de ação configuráveis por tipo.
+ *
+ * @param type O tipo do diálogo, que define o título e o comportamento dos botões.
+ * @param show Controla a exibição do diálogo.
+ * @param onDismissRequest Função executada ao tentar fechar o diálogo.
+ * @param message O texto da mensagem a ser exibida.
+ * @param onConfirm Função executada ao confirmar a ação.
+ * @param onCancel Função executada ao cancelar a ação.
+ * @param containerColor Cor de fundo do contêiner do diálogo.
+ * @param textContentColor Cor do texto da mensagem.
+ */
 @Composable
 fun BaseMessageDialog(
     type: EnumDialogType,

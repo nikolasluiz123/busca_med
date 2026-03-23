@@ -11,6 +11,22 @@ import androidx.compose.ui.unit.dp
 import br.com.android.buscamed.presentation.core.components.buttons.icons.IconButtonArrowBack
 import br.com.android.buscamed.presentation.core.components.buttons.icons.MenuIconButton
 
+/**
+ * Componente base para a barra superior (TopAppBar) do sistema.
+ *
+ * Esta função provê uma estrutura flexível para a barra de navegação superior, permitindo
+ * configurar o título, ações, ícones de navegação e menus de opções de forma padronizada.
+ *
+ * @param title Função Composable que define o conteúdo do título.
+ * @param onBackClick Função callback executada ao clicar no ícone de navegação padrão (voltar).
+ * @param actions Bloco Composable para definir ações personalizadas no lado direito da barra.
+ * @param menuItems Bloco Composable para definir os itens de um menu suspenso.
+ * @param colors Configuração de cores para os diferentes elementos da barra superior.
+ * @param showNavigationIcon Define se o ícone de navegação deve ser exibido.
+ * @param customNavigationIcon Permite fornecer um Composable customizado para o ícone de navegação.
+ * @param showMenu Define se o botão de menu de opções deve ser exibido.
+ * @param windowInsets Define as margens de janela (insets) a serem respeitadas pela barra.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BaseTopAppBar(

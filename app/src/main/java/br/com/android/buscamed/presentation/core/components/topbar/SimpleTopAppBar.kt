@@ -11,6 +11,24 @@ import androidx.compose.ui.text.TextStyle
 import br.com.android.buscamed.presentation.core.theme.TopAppBarSubtitleTextStyle
 import br.com.android.buscamed.presentation.core.theme.TopAppBarTitleTextStyle
 
+/**
+ * Implementação simplificada da TopAppBar com suporte a título e subtítulo.
+ *
+ * Esta função facilita a criação de barras superiores comuns, organizando o título e o subtítulo
+ * em uma coluna vertical e repassando as demais configurações para a [BaseTopAppBar].
+ *
+ * @param title Texto principal da barra superior.
+ * @param subtitle Texto secundário opcional exibido abaixo do título.
+ * @param onBackClick Função callback executada ao clicar no ícone de navegação.
+ * @param actions Bloco Composable para definir ações personalizadas no lado direito.
+ * @param menuItems Bloco Composable para definir itens de menu suspenso.
+ * @param colors Configuração de cores para a barra superior.
+ * @param showNavigationIcon Define se o ícone de navegação (voltar) deve ser exibido.
+ * @param customNavigationIcon Ícone de navegação personalizado (opcional).
+ * @param showMenu Define se o botão de menu de opções deve ser exibido.
+ * @param titleTextStyle Estilo de texto para o título.
+ * @param subtitleTextStyle Estilo de texto para o subtítulo.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleTopAppBar(

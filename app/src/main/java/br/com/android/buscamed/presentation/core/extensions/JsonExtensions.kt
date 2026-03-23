@@ -6,21 +6,21 @@ import com.google.gson.GsonBuilder
 
 /**
  * Remove o primeiro e o último caractere de uma [String].
- * Útil para limpar strings JSON que vêm encapsuladas por algum motivo.
+ * 
+ * Função utilitária interna para limpar delimitadores de strings JSON.
  *
- * @receiver A string JSON a ser formatada.
- * @return A string sem o primeiro e último caractere.
+ * @return A string formatada.
  */
 private fun String.formatJsonNavParam() = this.substring(1, this.length - 1)
 
 /**
- * Converte uma string JSON, recebida como parâmetro de navegação, em um objeto do tipo `ARG`.
+ * Converte uma string JSON, recebida como parâmetro de navegação, em um objeto de dados.
  *
- * @receiver A string JSON a ser convertida.
+ * Esta função prepara a string e utiliza o Gson para realizar a desserialização para o tipo [ARG] especificado.
+ *
  * @param clazz A classe do tipo de objeto para a qual a string será convertida.
- * @param gson Uma instância opcional do [Gson] para ser usada na desserialização.
- * @return O objeto do tipo `ARG` populado com os dados do JSON.
- * @param <ARG> O tipo genérico do objeto de destino.
+ * @param gson Uma instância do [Gson] para ser usada na desserialização (padrão configurado com adaptadores do projeto).
+ * @return O objeto do tipo [ARG] populado com os dados do JSON.
  */
 fun <ARG> String.fromJsonNavParamToArgs(clazz: Class<ARG>, gson: Gson = GsonBuilder().defaultGSon()): ARG {
     return gson.getAdapter(clazz).fromJson(this.formatJsonNavParam())

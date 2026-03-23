@@ -25,9 +25,35 @@ import br.com.android.buscamed.presentation.core.state.interfaces.field.TextFiel
 import br.com.android.buscamed.presentation.core.theme.FieldErrorTextStyle
 import br.com.android.buscamed.presentation.core.theme.InputTextStyle
 
+/**
+ * Campo de texto com contorno (Outlined) que integra validação visual automática.
+ *
+ * Esta função exibe mensagens de erro e ícones de alerta quando o estado do campo
+ * indica uma falha de validação. É a versão principal que aceita a interface [TextField].
+ *
+ * @param field Interface que provê o valor, a função de mudança e a mensagem de erro.
+ * @param label Rótulo textual do campo.
+ * @param modifier Modificador de layout.
+ * @param enabled Define se o campo está ativo.
+ * @param readOnly Define se o campo é apenas para leitura.
+ * @param textStyle Estilo visual do texto de entrada.
+ * @param placeholder Componente opcional para exibição de dica quando o campo está vazio.
+ * @param leadingIcon Ícone opcional no início do campo.
+ * @param isError Indica se o campo deve exibir o estado de erro.
+ * @param trailingIcon Ícone opcional no final do campo (padrão exibe ícone de erro se necessário).
+ * @param visualTransformation Transformação visual do texto (ex: máscara de senha).
+ * @param keyboardOptions Configurações do teclado virtual.
+ * @param keyboardActions Ações executadas ao interagir com o teclado.
+ * @param singleLine Define se o texto deve ser mantido em uma única linha.
+ * @param maxLines Quantidade máxima de linhas visíveis.
+ * @param interactionSource Fonte de interações do componente.
+ * @param shape Forma geométrica do contorno do campo.
+ * @param colors Configuração de cores para os diferentes estados do campo.
+ * @param maxLength Limite máximo de caracteres permitidos.
+ */
 @Composable
 fun OutlinedTextFieldValidation(
-    field: br.com.android.buscamed.presentation.core.state.interfaces.field.TextField,
+    field: TextField,
     label: String,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
@@ -79,6 +105,9 @@ fun OutlinedTextFieldValidation(
     )
 }
 
+/**
+ * Sobrecarga que aceita um componente [TextField] e um Composable para o rótulo.
+ */
 @Composable
 fun OutlinedTextFieldValidation(
     field: TextField,
@@ -131,6 +160,9 @@ fun OutlinedTextFieldValidation(
     )
 }
 
+/**
+ * Implementação base do campo de texto com validação que gerencia a exibição da mensagem de erro (supportingText).
+ */
 @Composable
 fun OutlinedTextFieldValidation(
     value: String?,
@@ -198,6 +230,9 @@ fun OutlinedTextFieldValidation(
     )
 }
 
+/**
+ * Retorna as cores padrão configuradas para os campos Outlined do projeto.
+ */
 @Composable
 fun getDefaultOutlinedTextFieldColors(): TextFieldColors {
     return OutlinedTextFieldDefaults.colors(
