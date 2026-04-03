@@ -43,4 +43,10 @@
     <string name="home_screen_welcome_message">Bem-vindo à Home!</string>
     <string name="home_screen_label_button_document_capture">Campturar Documento</string>
     <string name="prescription_result_screen_title">Resultado da Extração da Prescrição</string>
+    <string name="label_unknown_medication">Medicamento Desconhecido</string>
+    <string name="label_presentation">Apresentação</string>
+    <string name="label_dose">Dose</string>
+    <string name="label_frequency">Frequência</string>
+    <string name="label_duration">Duração</string>
+    <string name="label_total_quantity">Total</string>
 </resources>

@@ -42,7 +42,7 @@ object NetworkModule {
     fun provideHttpClient(firebaseAuth: FirebaseAuth): HttpClient {
         return HttpClient(OkHttp) {
             install(HttpTimeout) {
-                this.requestTimeoutMillis = 10_000
+                this.requestTimeoutMillis = 180_000
                 this.connectTimeoutMillis = 5_000
             }
 
