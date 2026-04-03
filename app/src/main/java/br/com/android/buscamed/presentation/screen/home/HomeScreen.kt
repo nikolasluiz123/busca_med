@@ -1,11 +1,9 @@
 package br.com.android.buscamed.presentation.screen.home
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -21,20 +19,20 @@ import br.com.android.buscamed.presentation.viewmodel.HomeViewModel
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel,
-    onNavigateToDocumentCapture: () -> Unit
+    onNavigateToPrescriptionCapture: () -> Unit
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     HomeScreen(
         state = state,
-        onNavigateToDocumentCapture = onNavigateToDocumentCapture
+        onNavigateToPrescriptionCapture = onNavigateToPrescriptionCapture
     )
 }
 
 @Composable
 fun HomeScreen(
     state: HomeUIState = HomeUIState(),
-    onNavigateToDocumentCapture: () -> Unit = {}
+    onNavigateToPrescriptionCapture: () -> Unit = {}
 ) {
     Scaffold(
         topBar = {
@@ -52,7 +50,7 @@ fun HomeScreen(
         ) {
             BaseButton(
                 label = stringResource(R.string.home_screen_label_button_document_capture),
-                onClickListener = onNavigateToDocumentCapture
+                onClickListener = onNavigateToPrescriptionCapture
             )
         }
     }

@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.NavHost
 import br.com.android.buscamed.presentation.screen.capture.documentCaptureScreen
-import br.com.android.buscamed.presentation.screen.capture.navigateToDocumentCaptureScreen
+import br.com.android.buscamed.presentation.screen.capture.navigateToPrescriptionCaptureScreen
 import br.com.android.buscamed.presentation.screen.home.homeScreen
 import br.com.android.buscamed.presentation.screen.home.homeScreenRoute
 import br.com.android.buscamed.presentation.screen.home.navigateToHomeScreen
@@ -58,7 +58,7 @@ fun BuscaMedNavHost(
         )
 
         homeScreen(
-            onNavigateToDocumentCapture = navController::navigateToDocumentCaptureScreen
+            onNavigateToDocumentCapture = navController::navigateToPrescriptionCaptureScreen
         )
 
         documentCaptureScreen()

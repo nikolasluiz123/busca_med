@@ -17,7 +17,7 @@ fun NavGraphBuilder.homeScreen(
 
         HomeScreen(
             viewModel = homeViewModel,
-            onNavigateToDocumentCapture = onNavigateToDocumentCapture
+            onNavigateToPrescriptionCapture = onNavigateToDocumentCapture
         )
     }
 }

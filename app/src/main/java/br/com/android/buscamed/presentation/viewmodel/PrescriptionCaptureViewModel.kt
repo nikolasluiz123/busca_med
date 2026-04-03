@@ -2,26 +2,26 @@ package br.com.android.buscamed.presentation.viewmodel
 
 import android.util.Log
 import androidx.camera.core.ImageProxy
-import androidx.lifecycle.viewModelScope
 import br.com.android.buscamed.domain.analyzer.FrameAnalyzer
 import br.com.android.buscamed.domain.model.capture.AnalyzerState
-import br.com.android.buscamed.presentation.screen.capture.state.CameraCaptureUIState
+import br.com.android.buscamed.domain.usecase.prescription.ReadPrescriptionUseCase
+import br.com.android.buscamed.presentation.screen.capture.state.PrescriptionCaptureUIState
 import br.com.android.buscamed.presentation.viewmodel.core.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CameraCaptureViewModel @Inject constructor(
-    val frameAnalyzer: FrameAnalyzer<ImageProxy>
+class PrescriptionCaptureViewModel @Inject constructor(
+    private val frameAnalyzer: FrameAnalyzer<ImageProxy>,
+    private val readPrescriptionUseCase: ReadPrescriptionUseCase
 ) : BaseViewModel() {
 
-    private val _uiState = MutableStateFlow(CameraCaptureUIState())
-    val uiState: StateFlow<CameraCaptureUIState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(PrescriptionCaptureUIState())
+    val uiState: StateFlow<PrescriptionCaptureUIState> = _uiState.asStateFlow()
 
     init {
         initialLoadUIState()
@@ -54,12 +54,18 @@ class CameraCaptureViewModel @Inject constructor(
         }
     }
 
+    fun analyze(imageProxy: ImageProxy) {
+        frameAnalyzer.analyze(imageProxy)
+    }
+
     fun onCaptureStarted() {
         _uiState.update { it.copy(isCapturing = true, isCaptureButtonEnabled = false) }
     }
 
     fun onPictureTaken(imagePath: String) {
-        Log.d("CameraCaptureViewModel", "Imagem capturada com sucesso: $imagePath")
+        launch {
+            readPrescriptionUseCase(imagePath)
+        }
     }
 
     fun onCaptureError(exception: Exception) {

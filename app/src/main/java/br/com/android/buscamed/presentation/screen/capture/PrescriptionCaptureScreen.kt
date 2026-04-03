@@ -28,16 +28,16 @@ import androidx.core.content.ContextCompat
 import br.com.android.buscamed.presentation.screen.capture.components.CameraXPreview
 import br.com.android.buscamed.presentation.screen.capture.components.InteractiveOverlay
 import br.com.android.buscamed.presentation.screen.capture.components.takePhoto
-import br.com.android.buscamed.presentation.screen.capture.state.CameraCaptureUIState
-import br.com.android.buscamed.presentation.viewmodel.CameraCaptureViewModel
+import br.com.android.buscamed.presentation.screen.capture.state.PrescriptionCaptureUIState
+import br.com.android.buscamed.presentation.viewmodel.PrescriptionCaptureViewModel
 
 @Composable
-fun DocumentCaptureScreen(viewModel: CameraCaptureViewModel) {
+fun PrescriptionCaptureScreen(viewModel: PrescriptionCaptureViewModel) {
     val state by viewModel.uiState.collectAsState()
 
-    DocumentCaptureScreen(
+    PrescriptionCaptureScreen(
         state = state,
-        onAnalyzeFrame = viewModel.frameAnalyzer::analyze,
+        onAnalyzeFrame = viewModel::analyze,
         onCaptureStarted = viewModel::onCaptureStarted,
         onPictureTaken = viewModel::onPictureTaken,
         onCaptureError = viewModel::onCaptureError
@@ -45,8 +45,8 @@ fun DocumentCaptureScreen(viewModel: CameraCaptureViewModel) {
 }
 
 @Composable
-fun DocumentCaptureScreen(
-    state: CameraCaptureUIState,
+fun PrescriptionCaptureScreen(
+    state: PrescriptionCaptureUIState,
     onAnalyzeFrame: (ImageProxy) -> Unit,
     onCaptureStarted: () -> Unit,
     onPictureTaken: (String) -> Unit,

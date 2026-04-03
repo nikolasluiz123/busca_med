@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import br.com.android.buscamed.domain.core.validation.FieldValidationError
 import br.com.android.buscamed.domain.core.validation.GeneralValidationError
 import br.com.android.buscamed.domain.core.validation.ValidationError
+import br.com.android.buscamed.presentation.core.extensions.parseDouble
 import br.com.android.buscamed.presentation.core.state.dialog.MessageDialogState
 import br.com.android.buscamed.presentation.core.state.field.DefaultTextField
-import br.com.android.buscamed.presentation.core.extensions.parseDouble
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 

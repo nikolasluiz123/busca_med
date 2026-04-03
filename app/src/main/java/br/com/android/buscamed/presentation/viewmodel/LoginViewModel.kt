@@ -1,7 +1,6 @@
 package br.com.android.buscamed.presentation.viewmodel
 
 import android.content.Context
-import androidx.lifecycle.viewModelScope
 import br.com.android.buscamed.R
 import br.com.android.buscamed.domain.core.validation.FieldValidationError
 import br.com.android.buscamed.domain.core.validation.GeneralValidationError
@@ -20,7 +19,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
