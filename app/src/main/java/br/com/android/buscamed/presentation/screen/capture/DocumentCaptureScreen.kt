@@ -1,5 +1,6 @@
 package br.com.android.buscamed.presentation.screen.capture
 
+import android.content.res.Configuration
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageProxy
 import androidx.compose.foundation.background
@@ -20,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
@@ -51,6 +53,8 @@ fun DocumentCaptureScreen(
     onCaptureError: (Exception) -> Unit
 ) {
     val context = LocalContext.current
+    val configuration = LocalConfiguration.current
+
     val imageCapture = remember {
         ImageCapture.Builder()
             .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
@@ -77,11 +81,15 @@ fun DocumentCaptureScreen(
                 modifier = Modifier.fillMaxSize()
             )
 
+            val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+            val buttonAlignment = if (isLandscape) Alignment.CenterEnd else Alignment.BottomCenter
+            val buttonPadding = if (isLandscape) Modifier.padding(end = 48.dp) else Modifier.padding(bottom = 48.dp)
+
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 48.dp)
+                    .align(buttonAlignment)
+                    .then(buttonPadding)
                     .size(72.dp)
                     .clip(CircleShape)
                     .background(if (state.isCaptureButtonEnabled) Color.White else Color.LightGray)
