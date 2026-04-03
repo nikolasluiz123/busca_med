@@ -1,8 +1,9 @@
 package br.com.android.buscamed.domain.usecase.prescription
 
 import android.util.Log
-import br.com.android.buscamed.data.processor.PassThroughProcessorStep
 import br.com.android.buscamed.domain.model.prescription.Prescription
+import br.com.android.buscamed.domain.processor.ImageProcessorStep
+import br.com.android.buscamed.domain.processor.SpatialReconstructionProcessorStep
 import br.com.android.buscamed.domain.repository.PrescriptionRepository
 import br.com.android.buscamed.domain.rule.CentralFocusConfidenceRule
 import br.com.android.buscamed.domain.rule.GlobalAverageConfidenceRule
@@ -36,13 +37,16 @@ class ReadPrescriptionUseCase @Inject constructor(
             CentralFocusConfidenceRule()
         )
 
-        val steps = listOf(
-            PassThroughProcessorStep()
+        val imageProcessorSteps = listOf<ImageProcessorStep>()
+
+        val textProcessorSteps = listOf(
+            SpatialReconstructionProcessorStep()
         )
 
         val analysisResult = analyzeImageTextUseCase(
             imagePath = imagePath,
-            imageProcessorSteps = steps,
+            imageProcessorSteps = imageProcessorSteps,
+            textProcessorSteps = textProcessorSteps,
             confidenceRules = rules
         )
 
