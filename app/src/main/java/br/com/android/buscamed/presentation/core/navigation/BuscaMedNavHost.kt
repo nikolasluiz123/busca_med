@@ -3,12 +3,20 @@ package br.com.android.buscamed.presentation.core.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.NavHost
+import br.com.android.buscamed.presentation.screen.capture.documentCaptureScreen
+import br.com.android.buscamed.presentation.screen.capture.navigateToDocumentCaptureScreen
+import br.com.android.buscamed.presentation.screen.home.homeScreen
+import br.com.android.buscamed.presentation.screen.home.homeScreenRoute
+import br.com.android.buscamed.presentation.screen.home.navigateToHomeScreen
 import br.com.android.buscamed.presentation.screen.login.loginScreen
 import br.com.android.buscamed.presentation.screen.login.loginScreenRoute
 import br.com.android.buscamed.presentation.screen.registeruser.RegisterUserScreenArgs
 import br.com.android.buscamed.presentation.screen.registeruser.navigateToRegisterUserScreen
 import br.com.android.buscamed.presentation.screen.registeruser.registerUserScreen
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
 /**
  * Host de navegação principal do aplicativo BuscaMed.
@@ -26,12 +34,16 @@ fun BuscaMedNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = loginScreenRoute,
+        startDestination = getStartDestination(),
         modifier = modifier
     ) {
         loginScreen(
             onNavigateToHome = {
-
+                navController.navigateToHomeScreen(
+                    navOptions = NavOptions.Builder()
+                        .setPopUpTo(loginScreenRoute, inclusive = true)
+                        .build()
+                )
             },
             onNavigateToRegister = {
                 navController.navigateToRegisterUserScreen(args = RegisterUserScreenArgs())
@@ -44,5 +56,16 @@ fun BuscaMedNavHost(
 
             }
         )
+
+        homeScreen(
+            onNavigateToDocumentCapture = navController::navigateToDocumentCaptureScreen
+        )
+
+        documentCaptureScreen()
     }
+}
+
+@Composable
+private fun getStartDestination(): String {
+    return if (Firebase.auth.currentUser != null) homeScreenRoute else loginScreenRoute
 }

@@ -38,4 +38,8 @@
     <string name="register_user_screen_label_name">Nome</string>
     <string name="register_screen_label_password_field">Senha *</string>
     <string name="register_user_screen_label_email_field">E-mail *</string>
+
+    <string name="home_screen_title">Home</string>
+    <string name="home_screen_welcome_message">Bem-vindo à Home!</string>
+    <string name="home_screen_label_button_document_capture">Campturar Documento</string>
 </resources>
