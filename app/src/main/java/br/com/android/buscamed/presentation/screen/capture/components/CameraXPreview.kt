@@ -14,18 +14,21 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.concurrent.futures.await
-import androidx.lifecycle.compose.LocalLifecycleOwner
 import java.io.File
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
 @Composable
 fun CameraXPreview(
+    isCapturing: Boolean,
     onAnalyzeFrame: (ImageProxy) -> Unit,
     imageCapture: ImageCapture,
     modifier: Modifier = Modifier
@@ -35,12 +38,16 @@ fun CameraXPreview(
     val previewView = remember { PreviewView(context) }
     val analyzerExecutor = remember { Executors.newSingleThreadExecutor() }
 
+    val currentIsCapturing by rememberUpdatedState(isCapturing)
+    val currentOnAnalyzeFrame by rememberUpdatedState(onAnalyzeFrame)
+
     DisposableEffect(Unit) {
         onDispose { analyzerExecutor.shutdown() }
     }
 
     LaunchedEffect(lifecycleOwner) {
         val cameraProvider = context.getCameraProvider()
+
         val preview = Preview.Builder().build().also {
             it.surfaceProvider = previewView.surfaceProvider
         }
@@ -50,7 +57,11 @@ fun CameraXPreview(
             .build()
             .also { analysis ->
                 analysis.setAnalyzer(analyzerExecutor) { imageProxy ->
-                    onAnalyzeFrame(imageProxy)
+                    if (currentIsCapturing) {
+                        imageProxy.close()
+                    } else {
+                        currentOnAnalyzeFrame(imageProxy)
+                    }
                 }
             }
 
@@ -86,7 +97,7 @@ fun takePhoto(
     imageCapture: ImageCapture,
     executor: Executor,
     onSuccess: (String) -> Unit,
-    onError: (Exception) -> Unit
+    onError: (ImageCaptureException) -> Unit
 ) {
     val photoFile = File(
         context.cacheDir,

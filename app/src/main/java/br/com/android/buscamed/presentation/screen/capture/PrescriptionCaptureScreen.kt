@@ -90,17 +90,26 @@ fun PrescriptionCaptureScreen(
             BaseMessageDialog(state = state.messageDialogState)
 
             CameraXPreview(
+                isCapturing = state.isCapturing,
                 onAnalyzeFrame = onAnalyzeFrame,
                 imageCapture = imageCapture,
                 modifier = Modifier.fillMaxSize()
             )
 
-            InteractiveOverlay(
-                analyzerState = state.analyzerState,
-                boundingBox = state.textBoundingBox,
-                sourceDimensions = state.sourceDimensions,
-                modifier = Modifier.fillMaxSize()
-            )
+            if (!state.isCapturing) {
+                InteractiveOverlay(
+                    analyzerState = state.analyzerState,
+                    boundingBox = state.textBoundingBox,
+                    sourceDimensions = state.sourceDimensions,
+                    modifier = Modifier.fillMaxSize()
+                )
+            } else {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Black)
+                )
+            }
 
             val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
             val buttonAlignment = if (isLandscape) Alignment.CenterEnd else Alignment.BottomCenter

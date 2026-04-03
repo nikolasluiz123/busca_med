@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import java.io.File
 import javax.inject.Inject
 
 /**
@@ -92,27 +93,44 @@ class PrescriptionCaptureViewModel @Inject constructor(
     fun onCaptureStarted() {
         _uiState.value = _uiState.value.copy(
             isCapturing = true,
-            isCaptureButtonEnabled = false
+            isCaptureButtonEnabled = false,
+            textBoundingBox = null,
+            analyzerState = AnalyzerState.NO_DOCUMENT
         )
     }
 
     fun onPictureTaken(imagePath: String) {
         launch {
-            readPrescriptionUseCase(imagePath).fold(
-                onSuccess = { prescriptionResult ->
-                    _uiState.value = _uiState.value.copy(
-                        isCapturing = false,
-                        prescription = prescriptionResult
-                    )
-                },
-                onFailure = { error ->
-                    _uiState.value = _uiState.value.copy(
-                        isCapturing = false,
-                        isCaptureButtonEnabled = true
-                    )
-                    handleUnexpectedError(error)
-                }
-            )
+            try {
+                readPrescriptionUseCase(imagePath).fold(
+                    onSuccess = { prescriptionResult ->
+                        _uiState.value = _uiState.value.copy(
+                            isCapturing = false,
+                            prescription = prescriptionResult
+                        )
+                    },
+                    onFailure = { error ->
+                        _uiState.value = _uiState.value.copy(
+                            isCapturing = false,
+                            isCaptureButtonEnabled = true
+                        )
+                        handleUnexpectedError(error)
+                    }
+                )
+            } finally {
+                clearImageCache(imagePath)
+            }
+        }
+    }
+
+    private fun clearImageCache(imagePath: String) {
+        try {
+            val file = File(imagePath)
+            if (file.exists()) {
+                file.delete()
+            }
+        } catch (e: Exception) {
+            Log.e("CameraCaptureViewModel", "Falha ao limpar cache de imagem", e)
         }
     }
 
@@ -123,5 +141,10 @@ class PrescriptionCaptureViewModel @Inject constructor(
             isCaptureButtonEnabled = true
         )
         handleUnexpectedError(exception)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        frameAnalyzer.close()
     }
 }

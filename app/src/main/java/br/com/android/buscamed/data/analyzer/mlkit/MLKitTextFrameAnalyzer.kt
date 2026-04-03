@@ -107,4 +107,8 @@ class MLKitTextFrameAnalyzer : FrameAnalyzer<ImageProxy> {
             frame.close()
         }
     }
+
+    override fun close() {
+        recognizer.close()
+    }
 }

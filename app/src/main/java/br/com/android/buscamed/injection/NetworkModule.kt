@@ -43,7 +43,8 @@ object NetworkModule {
         return HttpClient(OkHttp) {
             install(HttpTimeout) {
                 this.requestTimeoutMillis = 180_000
-                this.connectTimeoutMillis = 5_000
+                this.socketTimeoutMillis = 120_000
+                this.connectTimeoutMillis = 10_000
             }
 
             install(ContentNegotiation) {
@@ -60,7 +61,7 @@ object NetworkModule {
                         Log.d("KtorClient", message)
                     }
                 }
-                level = LogLevel.ALL
+                level = LogLevel.INFO
             }
 
             defaultRequest {

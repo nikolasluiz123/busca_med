@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
  *
  * @param T O tipo de representação de imagem suportado pelo analisador (ex: ImageProxy).
  */
-interface FrameAnalyzer<T> {
+interface FrameAnalyzer<T>: AutoCloseable {
     
     /**
      * Fluxo de estado contendo o resultado da análise mais recente.
