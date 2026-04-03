@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.hilt.android)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.gms.google.services)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -35,10 +36,11 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "BASE_URL", "\"https://buscamed-service-7zd5rrmmaq-rj.a.run.app\"")
         }
 
         debug {
-
+            buildConfigField("String", "BASE_URL", "\"https://buscamed-service-7zd5rrmmaq-rj.a.run.app\"")
         }
     }
     compileOptions {
@@ -47,6 +49,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.15"
@@ -95,6 +98,13 @@ dependencies {
     implementation(libs.mlkit.text.recognition)
     implementation(libs.guava)
     implementation(libs.androidx.concurrent.futures.ktx)
+
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.okhttp)
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
+    implementation(libs.ktor.client.auth)
+    implementation(libs.ktor.client.logging)
 
     debugImplementation(platform(libs.androidx.compose.bom))
     debugImplementation(libs.androidx.ui.tooling)
