@@ -43,15 +43,32 @@ class CameraCaptureViewModel @Inject constructor(
     }
 
     private fun observeAnalyzerState() {
-        launch {
-            frameAnalyzer.state.collect { state ->
+        viewModelScope.launch {
+            frameAnalyzer.state.collect { result ->
                 _uiState.update { currentState ->
-                    currentState.copy(
-                        analyzerState = state,
-                        isCaptureButtonEnabled = state == AnalyzerState.ALIGNED_AND_READY
-                    )
+                    if (currentState.isCapturing) {
+                        currentState
+                    } else {
+                        currentState.copy(
+                            analyzerState = result.analyzerState,
+                            textBoundingBox = result.boundingBox,
+                            isCaptureButtonEnabled = result.analyzerState == AnalyzerState.ALIGNED_AND_READY
+                        )
+                    }
                 }
             }
+        }
+    }
+
+    /**
+     * Sinaliza o início do processo de captura da imagem, congelando a interface.
+     */
+    fun onCaptureStarted() {
+        _uiState.update { currentState ->
+            currentState.copy(
+                isCapturing = true,
+                isCaptureButtonEnabled = false
+            )
         }
     }
 
@@ -63,6 +80,9 @@ class CameraCaptureViewModel @Inject constructor(
     fun onPictureTaken(imagePath: String) {
         Log.d("CameraCaptureViewModel", "Imagem capturada com sucesso: $imagePath")
         Log.d("CameraCaptureViewModel", "Iniciando chamada para o pipeline do domínio (OCR)...")
+
+        // Aqui o estado isCapturing permanece true, pois a tela deve continuar congelada
+        // enquanto navega para a próxima tela ou inicia o processamento do domínio.
     }
 
     /**
@@ -70,6 +90,12 @@ class CameraCaptureViewModel @Inject constructor(
      */
     fun onCaptureError(exception: Exception) {
         Log.e("CameraCaptureViewModel", "Falha na captura da imagem", exception)
+        _uiState.update { currentState ->
+            currentState.copy(
+                isCapturing = false,
+                isCaptureButtonEnabled = true
+            )
+        }
     }
 
     override fun onCleared() {

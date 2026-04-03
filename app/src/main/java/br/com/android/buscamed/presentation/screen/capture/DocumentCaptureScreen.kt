@@ -33,6 +33,7 @@ fun DocumentCaptureScreen(viewModel: CameraCaptureViewModel) {
     DocumentCaptureScreen(
         state = state,
         onAnalyzeFrame = viewModel.frameAnalyzer::analyze,
+        onCaptureStarted = viewModel::onCaptureStarted,
         onPictureTaken = viewModel::onPictureTaken,
         onCaptureError = viewModel::onCaptureError
     )
@@ -48,6 +49,7 @@ fun DocumentCaptureScreen(viewModel: CameraCaptureViewModel) {
 fun DocumentCaptureScreen(
     state: CameraCaptureUIState,
     onAnalyzeFrame: (ImageProxy) -> Unit,
+    onCaptureStarted: () -> Unit,
     onPictureTaken: (String) -> Unit,
     onCaptureError: (Exception) -> Unit
 ) {
@@ -72,11 +74,13 @@ fun DocumentCaptureScreen(
 
             InteractiveOverlay(
                 overlayColor = state.analyzerState.overlayColor,
+                dynamicBox = state.textBoundingBox,
                 modifier = Modifier.fillMaxSize()
             )
 
             Button(
                 onClick = {
+                    onCaptureStarted()
                     takePhoto(
                         context = context,
                         imageCapture = imageCapture,
@@ -85,12 +89,14 @@ fun DocumentCaptureScreen(
                         onError = onCaptureError
                     )
                 },
-                enabled = state.isCaptureButtonEnabled,
+                enabled = state.isCaptureButtonEnabled && !state.isCapturing,
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .padding(bottom = 32.dp)
             ) {
-                Text(text = "Capturar")
+                Text(
+                    text = if (state.isCapturing) "Processando..." else "Capturar"
+                )
             }
         }
     }
