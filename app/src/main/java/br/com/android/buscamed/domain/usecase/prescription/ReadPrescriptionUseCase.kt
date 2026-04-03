@@ -44,7 +44,7 @@ class ReadPrescriptionUseCase @Inject constructor(
         when (analysisResult) {
             is ImageTextAnalysisResult.HighlyConfident -> {
                 val extractedText = analysisResult.textResult.text
-                Log.d("ReadPrescription", "Texto extraído com alta confiança:\n$extractedText")
+                Log.d("ReadPrescription", "Leitura validada com sucesso.")
             }
             is ImageTextAnalysisResult.LowConfidenceFallback -> {
                 val fallbackImage = analysisResult.processedImage

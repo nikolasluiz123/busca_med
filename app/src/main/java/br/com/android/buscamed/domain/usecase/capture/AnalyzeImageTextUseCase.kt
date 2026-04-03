@@ -1,5 +1,6 @@
 package br.com.android.buscamed.domain.usecase.capture
 
+import android.util.Log
 import br.com.android.buscamed.domain.processor.ImageProcessorStep
 import br.com.android.buscamed.domain.provider.TextRecognitionProvider
 import br.com.android.buscamed.domain.rule.ConfidenceRule
@@ -36,8 +37,12 @@ class AnalyzeImageTextUseCase @Inject constructor(
 
             val textResult = textRecognitionProvider.recognizeText(currentImage)
 
-            val isConfident = confidenceRules.all { rule -> 
-                rule.evaluate(textResult) 
+            Log.d("AnalyzeImageText", "Texto extraído:\n${textResult.text}")
+
+            val isConfident = confidenceRules.all { rule ->
+                val result = rule.evaluate(textResult)
+                Log.d("AnalyzeImageText", "Rule ${rule.javaClass.simpleName} evaluated to: $result")
+                result
             }
 
             if (isConfident) {
