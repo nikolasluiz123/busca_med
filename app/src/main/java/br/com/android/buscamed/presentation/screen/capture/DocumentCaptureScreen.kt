@@ -2,18 +2,24 @@ package br.com.android.buscamed.presentation.screen.capture
 
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageProxy
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
@@ -23,9 +29,6 @@ import br.com.android.buscamed.presentation.screen.capture.components.takePhoto
 import br.com.android.buscamed.presentation.screen.capture.state.CameraCaptureUIState
 import br.com.android.buscamed.presentation.viewmodel.CameraCaptureViewModel
 
-/**
- * Tela orquestradora para o fluxo de captura.
- */
 @Composable
 fun DocumentCaptureScreen(viewModel: CameraCaptureViewModel) {
     val state by viewModel.uiState.collectAsState()
@@ -39,12 +42,6 @@ fun DocumentCaptureScreen(viewModel: CameraCaptureViewModel) {
     )
 }
 
-/**
- * @param state Estado puramente de dados da tela.
- * @param onAnalyzeFrame Evento de entrega do frame para análise externa.
- * @param onPictureTaken Evento de sucesso após disparo da câmera.
- * @param onCaptureError Evento de falha no disparo da câmera.
- */
 @Composable
 fun DocumentCaptureScreen(
     state: CameraCaptureUIState,
@@ -65,6 +62,7 @@ fun DocumentCaptureScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
+                .background(Color.Black)
         ) {
             CameraXPreview(
                 onAnalyzeFrame = onAnalyzeFrame,
@@ -73,30 +71,43 @@ fun DocumentCaptureScreen(
             )
 
             InteractiveOverlay(
-                overlayColor = state.analyzerState.overlayColor,
-                dynamicBox = state.textBoundingBox,
+                analyzerState = state.analyzerState,
+                boundingBox = state.textBoundingBox,
+                sourceDimensions = state.sourceDimensions,
                 modifier = Modifier.fillMaxSize()
             )
 
-            Button(
-                onClick = {
-                    onCaptureStarted()
-                    takePhoto(
-                        context = context,
-                        imageCapture = imageCapture,
-                        executor = ContextCompat.getMainExecutor(context),
-                        onSuccess = onPictureTaken,
-                        onError = onCaptureError
-                    )
-                },
-                enabled = state.isCaptureButtonEnabled && !state.isCapturing,
+            Box(
+                contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(bottom = 32.dp)
+                    .padding(bottom = 48.dp)
+                    .size(72.dp)
+                    .clip(CircleShape)
+                    .background(if (state.isCaptureButtonEnabled) Color.White else Color.LightGray)
+                    .border(
+                        width = 4.dp,
+                        color = if (state.isCaptureButtonEnabled) Color.Gray else Color.DarkGray,
+                        shape = CircleShape
+                    )
+                    .clickable(enabled = state.isCaptureButtonEnabled && !state.isCapturing) {
+                        onCaptureStarted()
+                        takePhoto(
+                            context = context,
+                            imageCapture = imageCapture,
+                            executor = ContextCompat.getMainExecutor(context),
+                            onSuccess = onPictureTaken,
+                            onError = onCaptureError
+                        )
+                    }
             ) {
-                Text(
-                    text = if (state.isCapturing) "Processando..." else "Capturar"
-                )
+                if (state.isCapturing) {
+                    CircularProgressIndicator(
+                        color = Color.Black,
+                        modifier = Modifier.size(32.dp),
+                        strokeWidth = 3.dp
+                    )
+                }
             }
         }
     }

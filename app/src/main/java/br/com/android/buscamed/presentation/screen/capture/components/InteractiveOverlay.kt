@@ -1,8 +1,6 @@
 package br.com.android.buscamed.presentation.screen.capture.components
 
-import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -14,72 +12,70 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
-import br.com.android.buscamed.presentation.screen.capture.state.BoundingBox
+import br.com.android.buscamed.domain.model.capture.AnalyzerState
+import br.com.android.buscamed.domain.model.capture.BoundingBox
+import br.com.android.buscamed.domain.model.capture.ImageDimension
+import kotlin.math.max
 
-/**
- * Desenha o overlay dinâmico para orientação de captura.
- *
- * @param overlayColor Cor atual da borda guia.
- */
 @Composable
 fun InteractiveOverlay(
-    overlayColor: Color,
-    dynamicBox: BoundingBox?,
+    analyzerState: AnalyzerState,
+    boundingBox: BoundingBox?,
+    sourceDimensions: ImageDimension?,
     modifier: Modifier = Modifier
 ) {
-    val defaultLeft = 0.075f
-    val defaultTop = 0.325f
-    val defaultRight = 0.925f
-    val defaultBottom = 0.675f
+    val outlineColor = when (analyzerState) {
+        AnalyzerState.NO_DOCUMENT -> Color.Red
+        AnalyzerState.PARTIAL -> Color.Yellow
+        AnalyzerState.ALIGNED -> Color.Green
+    }
 
-    val paddingMultiplier = 0.05f
-
-    val targetLeft = (dynamicBox?.left?.minus(paddingMultiplier)) ?: defaultLeft
-    val targetTop = (dynamicBox?.top?.minus(paddingMultiplier)) ?: defaultTop
-    val targetRight = (dynamicBox?.right?.plus(paddingMultiplier)) ?: defaultRight
-    val targetBottom = (dynamicBox?.bottom?.plus(paddingMultiplier)) ?: defaultBottom
-
-    val animationSpec = spring<Float>(
-        dampingRatio = Spring.DampingRatioMediumBouncy,
-        stiffness = Spring.StiffnessLow
-    )
-
-    val animatedLeft by animateFloatAsState(targetValue = targetLeft, animationSpec = animationSpec, label = "leftAnim")
-    val animatedTop by animateFloatAsState(targetValue = targetTop, animationSpec = animationSpec, label = "topAnim")
-    val animatedRight by animateFloatAsState(targetValue = targetRight, animationSpec = animationSpec, label = "rightAnim")
-    val animatedBottom by animateFloatAsState(targetValue = targetBottom, animationSpec = animationSpec, label = "bottomAnim")
+    val animatedLeft by animateFloatAsState(targetValue = boundingBox?.left ?: 0f, label = "left")
+    val animatedTop by animateFloatAsState(targetValue = boundingBox?.top ?: 0f, label = "top")
+    val animatedRight by animateFloatAsState(targetValue = boundingBox?.right ?: 0f, label = "right")
+    val animatedBottom by animateFloatAsState(targetValue = boundingBox?.bottom ?: 0f, label = "bottom")
 
     Canvas(modifier = modifier.fillMaxSize()) {
         val canvasWidth = size.width
         val canvasHeight = size.height
 
-        val safeLeft = animatedLeft.coerceIn(0f, 1f) * canvasWidth
-        val safeTop = animatedTop.coerceIn(0f, 1f) * canvasHeight
-        val safeRight = animatedRight.coerceIn(0f, 1f) * canvasWidth
-        val safeBottom = animatedBottom.coerceIn(0f, 1f) * canvasHeight
+        if (boundingBox != null && sourceDimensions != null && analyzerState != AnalyzerState.NO_DOCUMENT) {
+            drawRect(color = Color.Black.copy(alpha = 0.6f))
 
-        val rectWidth = safeRight - safeLeft
-        val rectHeight = safeBottom - safeTop
+            val imageWidth = sourceDimensions.width.toFloat()
+            val imageHeight = sourceDimensions.height.toFloat()
 
-        drawRect(
-            color = Color.Black.copy(alpha = 0.55f),
-            size = size
-        )
+            val scale = max(canvasWidth / imageWidth, canvasHeight / imageHeight)
 
-        drawRoundRect(
-            color = Color.Transparent,
-            topLeft = Offset(safeLeft, safeTop),
-            size = Size(rectWidth, rectHeight),
-            cornerRadius = CornerRadius(16f, 16f),
-            blendMode = BlendMode.Clear
-        )
+            val scaledImageWidth = imageWidth * scale
+            val scaledImageHeight = imageHeight * scale
 
-        drawRoundRect(
-            color = overlayColor,
-            topLeft = Offset(safeLeft, safeTop),
-            size = Size(rectWidth, rectHeight),
-            cornerRadius = CornerRadius(16f, 16f),
-            style = Stroke(width = 8f)
-        )
+            val offsetX = (scaledImageWidth - canvasWidth) / 2f
+            val offsetY = (scaledImageHeight - canvasHeight) / 2f
+
+            val mappedLeft = (animatedLeft * scale) - offsetX
+            val mappedTop = (animatedTop * scale) - offsetY
+            val mappedRight = (animatedRight * scale) - offsetX
+            val mappedBottom = (animatedBottom * scale) - offsetY
+
+            val rectWidth = mappedRight - mappedLeft
+            val rectHeight = mappedBottom - mappedTop
+
+            drawRoundRect(
+                color = Color.Transparent,
+                topLeft = Offset(mappedLeft, mappedTop),
+                size = Size(rectWidth, rectHeight),
+                cornerRadius = CornerRadius(16f, 16f),
+                blendMode = BlendMode.Clear
+            )
+
+            drawRoundRect(
+                color = outlineColor,
+                topLeft = Offset(mappedLeft, mappedTop),
+                size = Size(rectWidth, rectHeight),
+                cornerRadius = CornerRadius(16f, 16f),
+                style = Stroke(width = 8f)
+            )
+        }
     }
 }

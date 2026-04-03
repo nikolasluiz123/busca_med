@@ -1,16 +1,13 @@
 package br.com.android.buscamed.presentation.screen.capture.state
 
-/**
- * Representa o estado da interface da tela de captura.
- *
- * @property analyzerState Estado atual do analisador de quadros.
- * @property textBoundingBox Coordenadas normalizadas da área de texto detectada.
- * @property isCaptureButtonEnabled Define se a captura manual está habilitada.
- * @property isCapturing Indica se a câmera está no processo de salvar a foto de alta resolução.
- */
+import br.com.android.buscamed.domain.model.capture.AnalyzerState
+import br.com.android.buscamed.domain.model.capture.BoundingBox
+import br.com.android.buscamed.domain.model.capture.ImageDimension
+
 data class CameraCaptureUIState(
     val analyzerState: AnalyzerState = AnalyzerState.NO_DOCUMENT,
     val textBoundingBox: BoundingBox? = null,
+    val sourceDimensions: ImageDimension? = null,
     val isCaptureButtonEnabled: Boolean = false,
     val isCapturing: Boolean = false
 )

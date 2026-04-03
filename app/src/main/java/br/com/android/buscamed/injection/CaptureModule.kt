@@ -1,7 +1,8 @@
 package br.com.android.buscamed.injection
 
-import br.com.android.buscamed.presentation.screen.capture.analyzer.FrameAnalyzer
-import br.com.android.buscamed.presentation.screen.capture.analyzer.MLKitTextFrameAnalyzer
+import androidx.camera.core.ImageProxy
+import br.com.android.buscamed.data.analyzer.mlkit.MLKitTextFrameAnalyzer
+import br.com.android.buscamed.domain.analyzer.FrameAnalyzer
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,7 +18,7 @@ object CaptureModule {
 
     @Provides
     @ViewModelScoped
-    fun provideFrameAnalyzer(): FrameAnalyzer {
+    fun provideFrameAnalyzer(): FrameAnalyzer<ImageProxy> {
         return MLKitTextFrameAnalyzer()
     }
 }
