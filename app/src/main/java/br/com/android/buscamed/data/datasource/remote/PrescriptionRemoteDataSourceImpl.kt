@@ -1,5 +1,6 @@
 package br.com.android.buscamed.data.datasource.remote
 
+import br.com.android.buscamed.data.core.network.safeApiCall
 import br.com.android.buscamed.data.datasource.remote.dto.PrescriptionResponseDTO
 import br.com.android.buscamed.data.datasource.remote.dto.TextRequestDTO
 import io.ktor.client.HttpClient
@@ -25,30 +26,32 @@ class PrescriptionRemoteDataSourceImpl @Inject constructor(
 ) : PrescriptionRemoteDataSource {
 
     override suspend fun processPrescriptionText(text: String): PrescriptionResponseDTO {
-        val response = httpClient.post("/v1/prescription/process/text") {
-            contentType(ContentType.Application.Json)
-            setBody(TextRequestDTO(text = text))
+        return safeApiCall {
+            httpClient.post("/v1/prescription/process/text") {
+                contentType(ContentType.Application.Json)
+                setBody(TextRequestDTO(text = text))
+            }.body()
         }
-        return response.body()
     }
 
     override suspend fun processPrescriptionImage(file: File): PrescriptionResponseDTO {
-        val response = httpClient.post("/v1/prescription/process/image") {
-            setBody(
-                MultiPartFormDataContent(
-                    formData {
-                        append(
-                            "image",
-                            file.readBytes(),
-                            Headers.build {
-                                append(HttpHeaders.ContentType, "image/jpeg")
-                                append(HttpHeaders.ContentDisposition, "filename=\"${file.name}\"")
-                            }
-                        )
-                    }
+        return safeApiCall {
+            httpClient.post("/v1/prescription/process/image") {
+                setBody(
+                    MultiPartFormDataContent(
+                        formData {
+                            append(
+                                "image",
+                                file.readBytes(),
+                                Headers.build {
+                                    append(HttpHeaders.ContentType, "image/jpeg")
+                                    append(HttpHeaders.ContentDisposition, "filename=\"${file.name}\"")
+                                }
+                            )
+                        }
+                    )
                 )
-            )
+            }.body()
         }
-        return response.body()
     }
 }

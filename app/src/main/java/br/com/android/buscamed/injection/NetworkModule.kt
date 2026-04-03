@@ -21,6 +21,7 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.serialization.json.Json
 import javax.inject.Singleton
 import br.com.android.buscamed.BuildConfig
+import io.ktor.client.plugins.HttpTimeout
 
 /**
  * Módulo de injeção de dependências responsável por prover as instâncias relacionadas à comunicação de rede.
@@ -40,6 +41,11 @@ object NetworkModule {
     @Singleton
     fun provideHttpClient(firebaseAuth: FirebaseAuth): HttpClient {
         return HttpClient(OkHttp) {
+            install(HttpTimeout) {
+                this.requestTimeoutMillis = 10_000
+                this.connectTimeoutMillis = 5_000
+            }
+
             install(ContentNegotiation) {
                 json(Json {
                     prettyPrint = true

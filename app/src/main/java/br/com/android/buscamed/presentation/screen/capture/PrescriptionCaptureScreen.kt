@@ -14,6 +14,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -25,6 +27,8 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import br.com.android.buscamed.domain.model.prescription.Prescription
+import br.com.android.buscamed.presentation.core.components.dialog.BaseMessageDialog
 import br.com.android.buscamed.presentation.screen.capture.components.CameraXPreview
 import br.com.android.buscamed.presentation.screen.capture.components.InteractiveOverlay
 import br.com.android.buscamed.presentation.screen.capture.components.takePhoto
@@ -32,8 +36,22 @@ import br.com.android.buscamed.presentation.screen.capture.state.PrescriptionCap
 import br.com.android.buscamed.presentation.viewmodel.PrescriptionCaptureViewModel
 
 @Composable
-fun PrescriptionCaptureScreen(viewModel: PrescriptionCaptureViewModel) {
+fun PrescriptionCaptureScreen(
+    viewModel: PrescriptionCaptureViewModel,
+    onPrescriptionProcessed: (Prescription) -> Unit
+) {
     val state by viewModel.uiState.collectAsState()
+
+    DisposableEffect(Unit) {
+        viewModel.resetState()
+        onDispose { }
+    }
+
+    LaunchedEffect(state.prescription) {
+        state.prescription?.let {
+            onPrescriptionProcessed(it)
+        }
+    }
 
     PrescriptionCaptureScreen(
         state = state,
@@ -68,6 +86,9 @@ fun PrescriptionCaptureScreen(
                 .padding(paddingValues)
                 .background(Color.Black)
         ) {
+
+            BaseMessageDialog(state = state.messageDialogState)
+
             CameraXPreview(
                 onAnalyzeFrame = onAnalyzeFrame,
                 imageCapture = imageCapture,

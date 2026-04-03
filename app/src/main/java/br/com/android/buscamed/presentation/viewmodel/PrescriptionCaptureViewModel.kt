@@ -5,6 +5,7 @@ import androidx.camera.core.ImageProxy
 import br.com.android.buscamed.domain.analyzer.FrameAnalyzer
 import br.com.android.buscamed.domain.model.capture.AnalyzerState
 import br.com.android.buscamed.domain.usecase.prescription.ReadPrescriptionUseCase
+import br.com.android.buscamed.presentation.core.state.enumeration.EnumDialogType
 import br.com.android.buscamed.presentation.screen.capture.state.PrescriptionCaptureUIState
 import br.com.android.buscamed.presentation.viewmodel.core.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,6 +15,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
+/**
+ * ViewModel responsável pela lógica de captura e processamento de prescrições médicas.
+ */
 @HiltViewModel
 class PrescriptionCaptureViewModel @Inject constructor(
     private val frameAnalyzer: FrameAnalyzer<ImageProxy>,
@@ -28,12 +32,39 @@ class PrescriptionCaptureViewModel @Inject constructor(
     }
 
     override fun initialLoadUIState() {
+        val dialogState = createMessageDialogState(
+            getCurrentState = { _uiState.value.messageDialogState },
+            updateState = { newState ->
+                _uiState.value = _uiState.value.copy(messageDialogState = newState)
+            }
+        )
+        _uiState.value = _uiState.value.copy(messageDialogState = dialogState)
         observeAnalyzerState()
     }
 
-    override fun getErrorMessageFrom(throwable: Throwable): String = ""
+    override fun getErrorMessageFrom(throwable: Throwable): String {
+        return throwable.message ?: "Ocorreu um erro desconhecido ao processar a imagem."
+    }
 
-    override fun onShowErrorDialog(message: String) {}
+    override fun onShowErrorDialog(message: String) {
+        _uiState.value.messageDialogState.onShowDialog?.onShow(
+            type = EnumDialogType.ERROR,
+            message = message,
+            onConfirm = { _uiState.value.messageDialogState.onHideDialog() },
+            onCancel = { _uiState.value.messageDialogState.onHideDialog() }
+        )
+    }
+
+    /**
+     * Limpa o estado da tela, preparando-a para uma nova captura sem vestígios
+     * do processamento anterior.
+     */
+    fun resetState() {
+        _uiState.value = _uiState.value.copy(
+            isCapturing = false,
+            prescription = null
+        )
+    }
 
     private fun observeAnalyzerState() {
         launch {
@@ -59,17 +90,38 @@ class PrescriptionCaptureViewModel @Inject constructor(
     }
 
     fun onCaptureStarted() {
-        _uiState.update { it.copy(isCapturing = true, isCaptureButtonEnabled = false) }
+        _uiState.value = _uiState.value.copy(
+            isCapturing = true,
+            isCaptureButtonEnabled = false
+        )
     }
 
     fun onPictureTaken(imagePath: String) {
         launch {
-            readPrescriptionUseCase(imagePath)
+            readPrescriptionUseCase(imagePath).fold(
+                onSuccess = { prescriptionResult ->
+                    _uiState.value = _uiState.value.copy(
+                        isCapturing = false,
+                        prescription = prescriptionResult
+                    )
+                },
+                onFailure = { error ->
+                    _uiState.value = _uiState.value.copy(
+                        isCapturing = false,
+                        isCaptureButtonEnabled = true
+                    )
+                    handleUnexpectedError(error)
+                }
+            )
         }
     }
 
     fun onCaptureError(exception: Exception) {
         Log.e("CameraCaptureViewModel", "Falha na captura", exception)
-        _uiState.update { it.copy(isCapturing = false, isCaptureButtonEnabled = true) }
+        _uiState.value = _uiState.value.copy(
+            isCapturing = false,
+            isCaptureButtonEnabled = true
+        )
+        handleUnexpectedError(exception)
     }
 }
