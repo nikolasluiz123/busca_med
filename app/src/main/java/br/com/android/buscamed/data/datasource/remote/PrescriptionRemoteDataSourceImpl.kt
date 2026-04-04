@@ -30,7 +30,7 @@ class PrescriptionRemoteDataSourceImpl @Inject constructor(
             httpClient.post("/v1/prescription/process/text") {
                 contentType(ContentType.Application.Json)
                 setBody(TextRequestDTO(text = text))
-            }.body()
+            }
         }
     }
 
@@ -51,7 +51,7 @@ class PrescriptionRemoteDataSourceImpl @Inject constructor(
                         }
                     )
                 )
-            }.body()
+            }
         }
     }
 }
