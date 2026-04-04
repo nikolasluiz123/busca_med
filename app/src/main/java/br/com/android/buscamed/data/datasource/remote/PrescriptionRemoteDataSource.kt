@@ -12,15 +12,17 @@ interface PrescriptionRemoteDataSource {
      * Envia um texto para processamento no backend.
      *
      * @param text O texto a ser processado.
+     * @param file Arquivo da imagem.
      * @return DTO com a resposta do processamento.
      */
-    suspend fun processPrescriptionText(text: String): PrescriptionResponseDTO
+    suspend fun processPrescriptionText(text: String, file: File): PrescriptionResponseDTO
 
     /**
      * Envia uma imagem para processamento no backend via Multipart.
      *
+     * @param text Texto a ser processado.
      * @param file Arquivo da imagem.
      * @return DTO com a resposta do processamento.
      */
-    suspend fun processPrescriptionImage(file: File): PrescriptionResponseDTO
+    suspend fun processPrescriptionImage(text:String, file: File): PrescriptionResponseDTO
 }

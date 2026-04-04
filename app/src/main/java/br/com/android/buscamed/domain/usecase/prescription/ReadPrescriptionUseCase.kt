@@ -52,14 +52,20 @@ class ReadPrescriptionUseCase @Inject constructor(
 
         return when (analysisResult) {
             is ImageTextAnalysisResult.HighlyConfident -> {
-                val extractedText = analysisResult.textResult.text
                 Log.d("ReadPrescription", "Leitura validada com sucesso.")
-                prescriptionRepository.processText(extractedText)
+
+                prescriptionRepository.processText(
+                    text = analysisResult.textResult.text,
+                    imageFile = analysisResult.processedImage
+                )
             }
             is ImageTextAnalysisResult.LowConfidenceFallback -> {
-                val fallbackImage = analysisResult.processedImage
-                Log.d("ReadPrescription", "Confiança baixa. Imagem de fallback gerada em: ${fallbackImage.absolutePath}")
-                prescriptionRepository.processImage(fallbackImage)
+                Log.d("ReadPrescription", "Confiança baixa. Imagem de fallback gerada em: ${analysisResult.processedImage.absolutePath}")
+
+                prescriptionRepository.processImage(
+                    text = analysisResult.textResult.text,
+                    imageFile = analysisResult.processedImage
+                )
             }
             is ImageTextAnalysisResult.Error -> {
                 Log.e("ReadPrescription", "Erro ao processar a imagem da receita", analysisResult.exception)

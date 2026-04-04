@@ -54,9 +54,15 @@ class AnalyzeImageTextUseCase @Inject constructor(
             }
 
             if (isConfident) {
-                ImageTextAnalysisResult.HighlyConfident(textResult)
+                ImageTextAnalysisResult.HighlyConfident(
+                    textResult = textResult,
+                    processedImage = currentImage
+                )
             } else {
-                ImageTextAnalysisResult.LowConfidenceFallback(currentImage)
+                ImageTextAnalysisResult.LowConfidenceFallback(
+                    textResult = textResult,
+                    processedImage = currentImage
+                )
             }
         } catch (e: Exception) {
             ImageTextAnalysisResult.Error(e)

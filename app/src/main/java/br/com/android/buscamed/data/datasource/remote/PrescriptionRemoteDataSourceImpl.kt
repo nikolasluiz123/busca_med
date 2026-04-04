@@ -1,5 +1,6 @@
 package br.com.android.buscamed.data.datasource.remote
 
+import androidx.compose.runtime.key
 import br.com.android.buscamed.data.core.network.safeApiCall
 import br.com.android.buscamed.data.datasource.remote.dto.PrescriptionResponseDTO
 import br.com.android.buscamed.data.datasource.remote.dto.TextRequestDTO
@@ -25,33 +26,36 @@ class PrescriptionRemoteDataSourceImpl @Inject constructor(
     private val httpClient: HttpClient
 ) : PrescriptionRemoteDataSource {
 
-    override suspend fun processPrescriptionText(text: String): PrescriptionResponseDTO {
+    override suspend fun processPrescriptionText(text: String, file: File): PrescriptionResponseDTO {
         return safeApiCall {
             httpClient.post("/v1/prescription/process/text") {
                 contentType(ContentType.Application.Json)
-                setBody(TextRequestDTO(text = text))
+                setBody(buildMultiPartFrom(file, text))
             }
         }
     }
 
-    override suspend fun processPrescriptionImage(file: File): PrescriptionResponseDTO {
+    override suspend fun processPrescriptionImage(text: String, file: File): PrescriptionResponseDTO {
         return safeApiCall {
             httpClient.post("/v1/prescription/process/image") {
-                setBody(
-                    MultiPartFormDataContent(
-                        formData {
-                            append(
-                                "image",
-                                file.readBytes(),
-                                Headers.build {
-                                    append(HttpHeaders.ContentType, "image/jpeg")
-                                    append(HttpHeaders.ContentDisposition, "filename=\"${file.name}\"")
-                                }
-                            )
-                        }
-                    )
-                )
+                setBody(buildMultiPartFrom(file, text))
             }
         }
+    }
+
+    private fun buildMultiPartFrom(file: File, text: String): MultiPartFormDataContent {
+        return MultiPartFormDataContent(
+            formData {
+                append(
+                    "image",
+                    file.readBytes(),
+                    Headers.build {
+                        append(HttpHeaders.ContentType, "image/jpeg")
+                        append(HttpHeaders.ContentDisposition, "filename=\"${file.name}\"")
+                    }
+                )
+                append("text", text)
+            }
+        )
     }
 }

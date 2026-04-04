@@ -16,18 +16,18 @@ class PrescriptionRepositoryImpl @Inject constructor(
     private val remoteDataSource: PrescriptionRemoteDataSource
 ) : PrescriptionRepository {
 
-    override suspend fun processText(text: String): Result<Prescription> {
+    override suspend fun processText(text: String, imageFile: File): Result<Prescription> {
         return try {
-            val responseDto = remoteDataSource.processPrescriptionText(text)
+            val responseDto = remoteDataSource.processPrescriptionText(text, imageFile)
             Result.success(responseDto.toDomain())
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
 
-    override suspend fun processImage(imageFile: File): Result<Prescription> {
+    override suspend fun processImage(text: String, imageFile: File): Result<Prescription> {
         return try {
-            val responseDto = remoteDataSource.processPrescriptionImage(imageFile)
+            val responseDto = remoteDataSource.processPrescriptionImage(text, imageFile)
             Result.success(responseDto.toDomain())
         } catch (e: Exception) {
             Result.failure(e)
