@@ -1,6 +1,7 @@
 package br.com.android.buscamed.domain.usecase.prescription
 
 import android.util.Log
+import br.com.android.buscamed.domain.model.capture.ExecutionMetadata
 import br.com.android.buscamed.domain.model.prescription.Prescription
 import br.com.android.buscamed.domain.processor.ImageProcessorStep
 import br.com.android.buscamed.domain.processor.SpatialReconstructionProcessorStep
@@ -23,6 +24,8 @@ class ReadPrescriptionUseCase @Inject constructor(
     private val analyzeImageTextUseCase: AnalyzeImageTextUseCase,
     private val prescriptionRepository: PrescriptionRepository
 ) {
+    private val currentPipelineVersion = "medical_prescription_v1"
+
     /**
      * Inicia o processo de leitura da receita médica a partir de uma imagem capturada.
      *
@@ -50,13 +53,16 @@ class ReadPrescriptionUseCase @Inject constructor(
             confidenceRules = rules
         )
 
+        val metadata = ExecutionMetadata(pipelineVersion = currentPipelineVersion)
+
         return when (analysisResult) {
             is ImageTextAnalysisResult.HighlyConfident -> {
                 Log.d("ReadPrescription", "Leitura validada com sucesso.")
 
                 prescriptionRepository.processText(
                     text = analysisResult.textResult.text,
-                    imageFile = analysisResult.processedImage
+                    imageFile = analysisResult.processedImage,
+                    metadata = metadata
                 )
             }
             is ImageTextAnalysisResult.LowConfidenceFallback -> {
@@ -64,7 +70,8 @@ class ReadPrescriptionUseCase @Inject constructor(
 
                 prescriptionRepository.processImage(
                     text = analysisResult.textResult.text,
-                    imageFile = analysisResult.processedImage
+                    imageFile = analysisResult.processedImage,
+                    metadata = metadata
                 )
             }
             is ImageTextAnalysisResult.Error -> {

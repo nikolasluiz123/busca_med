@@ -1,11 +1,9 @@
 package br.com.android.buscamed.data.datasource.remote
 
-import androidx.compose.runtime.key
 import br.com.android.buscamed.data.core.network.safeApiCall
 import br.com.android.buscamed.data.datasource.remote.dto.PrescriptionResponseDTO
-import br.com.android.buscamed.data.datasource.remote.dto.TextRequestDTO
+import br.com.android.buscamed.domain.model.capture.ExecutionMetadata
 import io.ktor.client.HttpClient
-import io.ktor.client.call.body
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.forms.formData
 import io.ktor.client.request.post
@@ -26,24 +24,24 @@ class PrescriptionRemoteDataSourceImpl @Inject constructor(
     private val httpClient: HttpClient
 ) : PrescriptionRemoteDataSource {
 
-    override suspend fun processPrescriptionText(text: String, file: File): PrescriptionResponseDTO {
+    override suspend fun processPrescriptionText(text: String, file: File, metadata: ExecutionMetadata): PrescriptionResponseDTO {
         return safeApiCall {
             httpClient.post("/v1/prescription/process/text") {
                 contentType(ContentType.Application.Json)
-                setBody(buildMultiPartFrom(file, text))
+                setBody(buildMultiPartFrom(file, text, metadata.pipelineVersion))
             }
         }
     }
 
-    override suspend fun processPrescriptionImage(text: String, file: File): PrescriptionResponseDTO {
+    override suspend fun processPrescriptionImage(text: String, file: File, metadata: ExecutionMetadata): PrescriptionResponseDTO {
         return safeApiCall {
             httpClient.post("/v1/prescription/process/image") {
-                setBody(buildMultiPartFrom(file, text))
+                setBody(buildMultiPartFrom(file, text, metadata.pipelineVersion))
             }
         }
     }
 
-    private fun buildMultiPartFrom(file: File, text: String): MultiPartFormDataContent {
+    private fun buildMultiPartFrom(file: File, text: String, pipelineVersion: String): MultiPartFormDataContent {
         return MultiPartFormDataContent(
             formData {
                 append(
@@ -55,6 +53,7 @@ class PrescriptionRemoteDataSourceImpl @Inject constructor(
                     }
                 )
                 append("text", text)
+                append("pipelineVersion", pipelineVersion)
             }
         )
     }

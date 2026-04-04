@@ -2,6 +2,7 @@ package br.com.android.buscamed.data.repository
 
 import br.com.android.buscamed.data.datasource.remote.PrescriptionRemoteDataSource
 import br.com.android.buscamed.data.mapper.toDomain
+import br.com.android.buscamed.domain.model.capture.ExecutionMetadata
 import br.com.android.buscamed.domain.model.prescription.Prescription
 import br.com.android.buscamed.domain.repository.PrescriptionRepository
 import java.io.File
@@ -16,18 +17,18 @@ class PrescriptionRepositoryImpl @Inject constructor(
     private val remoteDataSource: PrescriptionRemoteDataSource
 ) : PrescriptionRepository {
 
-    override suspend fun processText(text: String, imageFile: File): Result<Prescription> {
+    override suspend fun processText(text: String, imageFile: File, metadata: ExecutionMetadata): Result<Prescription> {
         return try {
-            val responseDto = remoteDataSource.processPrescriptionText(text, imageFile)
+            val responseDto = remoteDataSource.processPrescriptionText(text, imageFile, metadata)
             Result.success(responseDto.toDomain())
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
 
-    override suspend fun processImage(text: String, imageFile: File): Result<Prescription> {
+    override suspend fun processImage(text: String, imageFile: File, metadata: ExecutionMetadata): Result<Prescription> {
         return try {
-            val responseDto = remoteDataSource.processPrescriptionImage(text, imageFile)
+            val responseDto = remoteDataSource.processPrescriptionImage(text, imageFile, metadata)
             Result.success(responseDto.toDomain())
         } catch (e: Exception) {
             Result.failure(e)
