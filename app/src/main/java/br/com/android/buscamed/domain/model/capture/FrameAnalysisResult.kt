@@ -1,14 +1,17 @@
 package br.com.android.buscamed.domain.model.capture
 
 /**
- * Encapsula o resultado de uma análise individual de quadro de imagem.
+ * Encapsula o resultado da análise de um quadro.
  *
- * @property state O estado de alinhamento detectado.
- * @property boundingBox As coordenadas do bloco de texto detectado, se houver.
- * @property sourceDimensions As dimensões originais do quadro de imagem que foi analisado.
+ * @param T O tipo de dados extraído durante a análise.
+ * @property state Estado atual da deteção no quadro.
+ * @property boundingBox Área delimitadora do alvo detetado.
+ * @property sourceDimensions Dimensões da imagem original.
+ * @property payload Dados adicionais extraídos do quadro.
  */
-data class FrameAnalysisResult(
-    val state: AnalyzerState = AnalyzerState.NO_DOCUMENT,
+data class FrameAnalysisResult<T>(
+    val state: AnalyzerState = AnalyzerState.NOT_DETECTED,
     val boundingBox: BoundingBox? = null,
-    val sourceDimensions: ImageDimension? = null
+    val sourceDimensions: ImageDimension? = null,
+    val payload: T? = null
 )

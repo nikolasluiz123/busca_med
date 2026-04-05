@@ -25,7 +25,7 @@ fun InteractiveOverlay(
     modifier: Modifier = Modifier
 ) {
     val outlineColor = when (analyzerState) {
-        AnalyzerState.NO_DOCUMENT -> Color.Red
+        AnalyzerState.NOT_DETECTED -> Color.Red
         AnalyzerState.PARTIAL -> Color.Yellow
         AnalyzerState.ALIGNED -> Color.Green
     }
@@ -39,7 +39,7 @@ fun InteractiveOverlay(
         val canvasWidth = size.width
         val canvasHeight = size.height
 
-        if (boundingBox != null && sourceDimensions != null && analyzerState != AnalyzerState.NO_DOCUMENT) {
+        if (boundingBox != null && sourceDimensions != null && analyzerState != AnalyzerState.NOT_DETECTED) {
             drawRect(color = Color.Black.copy(alpha = 0.6f))
 
             val imageWidth = sourceDimensions.width.toFloat()

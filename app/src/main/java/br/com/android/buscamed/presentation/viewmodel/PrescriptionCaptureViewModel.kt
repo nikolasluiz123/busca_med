@@ -5,6 +5,7 @@ import androidx.camera.core.ImageProxy
 import br.com.android.buscamed.domain.analyzer.FrameAnalyzer
 import br.com.android.buscamed.domain.model.capture.AnalyzerState
 import br.com.android.buscamed.domain.usecase.prescription.ReadPrescriptionUseCase
+import br.com.android.buscamed.injection.TextAnalyzer
 import br.com.android.buscamed.presentation.core.state.enumeration.EnumDialogType
 import br.com.android.buscamed.presentation.screen.capture.state.PrescriptionCaptureUIState
 import br.com.android.buscamed.presentation.viewmodel.core.BaseViewModel
@@ -21,7 +22,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class PrescriptionCaptureViewModel @Inject constructor(
-    private val frameAnalyzer: FrameAnalyzer<ImageProxy>,
+    @param:TextAnalyzer private val frameAnalyzer: FrameAnalyzer<ImageProxy, Unit>,
     private val readPrescriptionUseCase: ReadPrescriptionUseCase
 ) : BaseViewModel() {
 
@@ -95,7 +96,7 @@ class PrescriptionCaptureViewModel @Inject constructor(
             isCapturing = true,
             isCaptureButtonEnabled = false,
             textBoundingBox = null,
-            analyzerState = AnalyzerState.NO_DOCUMENT
+            analyzerState = AnalyzerState.NOT_DETECTED
         )
     }
 

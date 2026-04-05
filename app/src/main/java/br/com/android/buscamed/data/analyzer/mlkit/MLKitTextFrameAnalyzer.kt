@@ -1,3 +1,4 @@
+// android/buscamed/data/analyzer/mlkit/MLKitTextFrameAnalyzer.kt
 package br.com.android.buscamed.data.analyzer.mlkit
 
 import android.media.Image
@@ -15,15 +16,16 @@ import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.min
 
-class MLKitTextFrameAnalyzer : FrameAnalyzer<ImageProxy> {
+class MLKitTextFrameAnalyzer @Inject constructor() : FrameAnalyzer<ImageProxy, Unit> {
 
     private val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
 
-    private val _state = MutableStateFlow(FrameAnalysisResult())
-    override val state: StateFlow<FrameAnalysisResult> = _state.asStateFlow()
+    private val _state = MutableStateFlow(FrameAnalysisResult<Unit>())
+    override val state: StateFlow<FrameAnalysisResult<Unit>> = _state.asStateFlow()
 
     @OptIn(ExperimentalGetImage::class)
     override fun analyze(frame: ImageProxy) {
@@ -42,7 +44,7 @@ class MLKitTextFrameAnalyzer : FrameAnalyzer<ImageProxy> {
                 .addOnSuccessListener { visionText ->
                     if (visionText.textBlocks.isEmpty()) {
                         _state.value = FrameAnalysisResult(
-                            state = AnalyzerState.NO_DOCUMENT,
+                            state = AnalyzerState.NOT_DETECTED,
                             boundingBox = null,
                             sourceDimensions = imageDimensions
                         )
@@ -66,7 +68,7 @@ class MLKitTextFrameAnalyzer : FrameAnalyzer<ImageProxy> {
 
                         if (validBlocksCount == 0) {
                             _state.value = FrameAnalysisResult(
-                                state = AnalyzerState.NO_DOCUMENT,
+                                state = AnalyzerState.NOT_DETECTED,
                                 boundingBox = null,
                                 sourceDimensions = imageDimensions
                             )
@@ -95,7 +97,7 @@ class MLKitTextFrameAnalyzer : FrameAnalyzer<ImageProxy> {
                 }
                 .addOnFailureListener {
                     _state.value = FrameAnalysisResult(
-                        state = AnalyzerState.NO_DOCUMENT,
+                        state = AnalyzerState.NOT_DETECTED,
                         boundingBox = null,
                         sourceDimensions = imageDimensions
                     )

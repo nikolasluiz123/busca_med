@@ -1,5 +1,7 @@
 package br.com.android.buscamed.injection
 
+import br.com.android.buscamed.data.datasource.firestore.MedicationDataSource
+import br.com.android.buscamed.data.datasource.firestore.MedicationFirestoreDataSource
 import br.com.android.buscamed.data.datasource.firestore.UserDataSource
 import br.com.android.buscamed.data.datasource.firestore.UserFirestoreDataSource
 import br.com.android.buscamed.data.datasource.remote.PillPackRemoteDataSource
@@ -29,4 +31,9 @@ abstract class DataSourceModule {
     abstract fun bindPillPackRemoteDataSource(
         impl: PillPackRemoteDataSourceImpl
     ): PillPackRemoteDataSource
+
+    @Binds
+    abstract fun bindMedicationDataSource(
+        impl: MedicationFirestoreDataSource
+    ): MedicationDataSource
 }

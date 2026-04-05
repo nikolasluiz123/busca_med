@@ -58,4 +58,9 @@
     <string name="label_frequency">Frequência</string>
     <string name="label_duration">Duração</string>
     <string name="label_total_quantity">Total</string>
+
+    <string name="barcode_capture_error_medication_not_found">Não foi possível localizar este medicamento na base de dados.</string>
+    <string name="barcode_capture_error_invalid_barcode">Código de barras inválido ou não suportado.</string>
+    <string name="barcode_capture_error_unknown">Ocorreu um erro desconhecido ao buscar o medicamento.</string>
+    <string name="home_screen_label_button_scan_barcode">Escanear Código de Barras</string>
 </resources>

@@ -11,7 +11,8 @@ const val homeScreenRoute = "home"
 
 fun NavGraphBuilder.homeScreen(
     onNavigateToPrescriptionCapture: () -> Unit,
-    onNavigateToPillPackCapture: () -> Unit
+    onNavigateToPillPackCapture: () -> Unit,
+    onNavigateToBarcodeCapture: () -> Unit
 ) {
     composable(route = homeScreenRoute) {
         val homeViewModel = hiltViewModel<HomeViewModel>()
@@ -19,7 +20,8 @@ fun NavGraphBuilder.homeScreen(
         HomeScreen(
             viewModel = homeViewModel,
             onNavigateToPrescriptionCapture = onNavigateToPrescriptionCapture,
-            onNavigateToPillPackCapture = onNavigateToPillPackCapture
+            onNavigateToPillPackCapture = onNavigateToPillPackCapture,
+            onNavigateToBarcodeCapture = onNavigateToBarcodeCapture
         )
     }
 }

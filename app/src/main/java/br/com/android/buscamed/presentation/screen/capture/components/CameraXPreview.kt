@@ -8,6 +8,7 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
+import androidx.camera.core.UseCase
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,12 +27,20 @@ import java.io.File
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
+/**
+ * Componente que renderiza o preview da câmera usando CameraX.
+ *
+ * @param onAnalyzeFrame Callback acionado com o quadro da câmera para análise de imagem.
+ * @param modifier Modificador para este composable.
+ * @param isCapturing Indica se a câmera está no processo de salvar uma imagem estática ou paralisada.
+ * @param imageCapture Opcional. Caso de uso para tirar fotos estáticas. Se nulo, apenas o preview e a análise serão vinculados.
+ */
 @Composable
 fun CameraXPreview(
-    isCapturing: Boolean,
     onAnalyzeFrame: (ImageProxy) -> Unit,
-    imageCapture: ImageCapture,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isCapturing: Boolean = false,
+    imageCapture: ImageCapture? = null
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -67,12 +76,17 @@ fun CameraXPreview(
 
         try {
             cameraProvider.unbindAll()
+
+            val useCases = mutableListOf(preview, imageAnalysis)
+
+            if (imageCapture != null) {
+                useCases.add(imageCapture)
+            }
+
             cameraProvider.bindToLifecycle(
-                lifecycleOwner,
-                CameraSelector.DEFAULT_BACK_CAMERA,
-                preview,
-                imageCapture,
-                imageAnalysis
+                lifecycleOwner = lifecycleOwner,
+                cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA,
+                useCases = useCases.toTypedArray()
             )
         } catch (e: Exception) {
             Log.e("CameraXPreview", "Falha ao vincular CameraX", e)

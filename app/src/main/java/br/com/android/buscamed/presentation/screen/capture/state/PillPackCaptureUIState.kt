@@ -19,7 +19,7 @@ import br.com.android.buscamed.presentation.core.state.interfaces.ThrowableUISta
  * @property messageDialogState Estado para controle de exibição de mensagens de erro.
  */
 data class PillPackCaptureUIState(
-    val analyzerState: AnalyzerState = AnalyzerState.NO_DOCUMENT,
+    val analyzerState: AnalyzerState = AnalyzerState.NOT_DETECTED,
     val textBoundingBox: BoundingBox? = null,
     val sourceDimensions: ImageDimension? = null,
     val isCaptureButtonEnabled: Boolean = false,

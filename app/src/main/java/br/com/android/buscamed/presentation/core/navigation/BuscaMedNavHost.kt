@@ -5,6 +5,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.NavHost
+import br.com.android.buscamed.presentation.screen.capture.barcodeCaptureScreen
+import br.com.android.buscamed.presentation.screen.capture.navigateToBarcodeCaptureScreen
 import br.com.android.buscamed.presentation.screen.capture.navigateToPillPackCaptureScreen
 import br.com.android.buscamed.presentation.screen.capture.navigateToPrescriptionCaptureScreen
 import br.com.android.buscamed.presentation.screen.capture.pillPackCaptureScreen
@@ -67,7 +69,8 @@ fun BuscaMedNavHost(
 
         homeScreen(
             onNavigateToPrescriptionCapture = navController::navigateToPrescriptionCaptureScreen,
-            onNavigateToPillPackCapture = navController::navigateToPillPackCaptureScreen
+            onNavigateToPillPackCapture = navController::navigateToPillPackCaptureScreen,
+            onNavigateToBarcodeCapture = navController::navigateToBarcodeCaptureScreen
         )
 
         pillPackCaptureScreen(
@@ -92,6 +95,16 @@ fun BuscaMedNavHost(
 
         prescriptionResultScreen(
             onBackClick = navController::popBackStack
+        )
+
+        barcodeCaptureScreen(
+            onBackClick = navController::popBackStack,
+            onNavigateToMedicationDetails = { medication ->
+
+            },
+            onNavigateToMedicationList = { medications ->
+
+            }
         )
     }
 }
