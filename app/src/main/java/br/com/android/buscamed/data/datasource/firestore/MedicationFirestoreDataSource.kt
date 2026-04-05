@@ -15,22 +15,18 @@ class MedicationFirestoreDataSource @Inject constructor(
     private val firestore: FirebaseFirestore
 ) : MedicationDataSource {
 
-    private val collectionName = "medications"
-
     override suspend fun getMedicationsByEan(ean: String): List<AnvisaMedicationDocument> {
-        val querySnapshot = firestore.collection(collectionName)
-            .where(
-                Filter.or(
-                    Filter.equalTo(AnvisaMedicationDocument::ean1.name, ean),
-                    Filter.equalTo(AnvisaMedicationDocument::ean2.name, ean),
-                    Filter.equalTo(AnvisaMedicationDocument::ean3.name, ean)
-                )
-            )
+        val querySnapshot = firestore.collection(COLLECTION_NAME)
+            .whereEqualTo(AnvisaMedicationDocument::ean1.name, ean)
             .get()
             .await()
 
         return querySnapshot.documents.mapNotNull { documentSnapshot ->
             documentSnapshot.toObject(AnvisaMedicationDocument::class.java)
         }
+    }
+
+    companion object {
+        private const val COLLECTION_NAME = "anvisaMedications"
     }
 }

@@ -47,6 +47,8 @@ class SearchMedicationByBarcodeUseCase @Inject constructor(
                 return@withContext UseCaseResult.Error(validationErrors)
             }
 
+            Log.d("SearchMedicationByBarcodeUseCase", "Medicamentos encontrados: ${medications.joinToString { it.productName }}")
+
             return@withContext UseCaseResult.Success(medications)
         } catch (e: Exception) {
             validationErrors.add(GeneralValidationError(BarcodeGeneralErrorType.UNKNOWN_ERROR, e))

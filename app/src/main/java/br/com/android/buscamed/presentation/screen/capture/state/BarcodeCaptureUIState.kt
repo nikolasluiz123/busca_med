@@ -32,6 +32,4 @@ data class BarcodeCaptureUIState(
     val capturedBarcode: String? = null,
     val searchResult: List<AnvisaMedication>? = null,
     override val messageDialogState: MessageDialogState = MessageDialogState(),
-    override val showLoading: Boolean = false,
-    override val onToggleLoading: () -> Unit = { }
-) : LoadingUIState, ThrowableUIState
+) : ThrowableUIState

@@ -51,9 +51,6 @@ class BarcodeCaptureViewModel @Inject constructor(
                 getCurrentState = { _uiState.value.messageDialogState },
                 updateState = { _uiState.value = _uiState.value.copy(messageDialogState = it) }
             ),
-            onToggleLoading = {
-                _uiState.value = _uiState.value.copy(showLoading = !_uiState.value.showLoading)
-            }
         )
     }
 
@@ -118,18 +115,14 @@ class BarcodeCaptureViewModel @Inject constructor(
         )
 
         launch {
-            _uiState.value.onToggleLoading()
-
             when (val result = searchMedicationUseCase(barcode)) {
                 is UseCaseResult.Success -> {
-                    _uiState.value.onToggleLoading()
                     _uiState.value = _uiState.value.copy(
                         isSearching = false,
                         searchResult = result.data
                     )
                 }
                 is UseCaseResult.Error -> {
-                    _uiState.value.onToggleLoading()
                     logValidationWarnings(result.errors)
                     showValidationMessages(result.errors)
 

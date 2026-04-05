@@ -98,7 +98,6 @@ fun BuscaMedNavHost(
         )
 
         barcodeCaptureScreen(
-            onBackClick = navController::popBackStack,
             onNavigateToMedicationDetails = { medication ->
 
             },

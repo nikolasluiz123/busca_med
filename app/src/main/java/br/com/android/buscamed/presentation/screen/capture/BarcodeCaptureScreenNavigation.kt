@@ -11,7 +11,6 @@ import br.com.android.buscamed.presentation.viewmodel.BarcodeCaptureViewModel
 const val barcodeCaptureScreenRoute = "barcodeCapture"
 
 fun NavGraphBuilder.barcodeCaptureScreen(
-    onBackClick: () -> Unit,
     onNavigateToMedicationDetails: (AnvisaMedication) -> Unit,
     onNavigateToMedicationList: (List<AnvisaMedication>) -> Unit
 ) {
@@ -20,7 +19,6 @@ fun NavGraphBuilder.barcodeCaptureScreen(
 
         BarcodeCaptureScreen(
             viewModel = barcodeCaptureViewModel,
-            onBackClick = onBackClick,
             onNavigateToMedicationDetails = onNavigateToMedicationDetails,
             onNavigateToMedicationList = onNavigateToMedicationList
         )
