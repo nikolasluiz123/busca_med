@@ -170,15 +170,15 @@ fun PillPackComponentItem(component: PillPackComponent) {
 }
 
 @Composable
-fun PillPackUsageSection(administrationRoutes: List<String>, ageRestrictions: List<String>) {
+fun PillPackUsageSection(administrationRoutes: List<String>?, ageRestrictions: List<String>?) {
     Column(modifier = Modifier.padding(bottom = 16.dp)) {
-        if (administrationRoutes.isNotEmpty()) {
+        if (!administrationRoutes.isNullOrEmpty()) {
             LabeledText(
                 label = stringResource(R.string.label_administration_routes),
                 value = administrationRoutes.joinToString(", ")
             )
         }
-        if (ageRestrictions.isNotEmpty()) {
+        if (!ageRestrictions.isNullOrEmpty()) {
             LabeledText(
                 label = stringResource(R.string.label_age_restrictions),
                 value = ageRestrictions.joinToString(", "),

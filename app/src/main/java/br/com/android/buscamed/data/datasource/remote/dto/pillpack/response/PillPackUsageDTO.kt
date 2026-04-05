@@ -11,6 +11,6 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class PillPackUsageDTO(
-    @SerialName("vias_administracao") val viasAdministracao: List<String> = emptyList(),
-    @SerialName("restricoes_idade") val restricoesIdade: List<String> = emptyList()
+    @SerialName("vias_administracao") val viasAdministracao: List<String>? = emptyList(),
+    @SerialName("restricoes_idade") val restricoesIdade: List<String>? = emptyList()
 )

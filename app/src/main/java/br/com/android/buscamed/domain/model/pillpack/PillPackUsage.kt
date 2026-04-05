@@ -7,6 +7,6 @@ package br.com.android.buscamed.domain.model.pillpack
  * @property ageRestrictions Lista de restrições de idade para o uso.
  */
 data class PillPackUsage(
-    val administrationRoutes: List<String>,
-    val ageRestrictions: List<String>
+    val administrationRoutes: List<String>?,
+    val ageRestrictions: List<String>?
 )
