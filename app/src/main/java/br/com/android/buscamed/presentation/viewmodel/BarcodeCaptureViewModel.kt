@@ -173,6 +173,7 @@ class BarcodeCaptureViewModel @Inject constructor(
 
     override fun onCleared() {
         super.onCleared()
+        resumeScanning()
         frameAnalyzer.close()
     }
 }

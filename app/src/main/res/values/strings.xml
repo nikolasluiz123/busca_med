@@ -63,4 +63,24 @@
     <string name="barcode_capture_error_invalid_barcode">Código de barras inválido ou não suportado.</string>
     <string name="barcode_capture_error_unknown">Ocorreu um erro desconhecido ao buscar o medicamento.</string>
     <string name="home_screen_label_button_scan_barcode">Escanear Código de Barras</string>
+
+    <string name="medication_list_title">Medicamentos Encontrados</string>
+    <string name="medication_details_title">Detalhes do Medicamento</string>
+    <string name="medication_label_product">Produto</string>
+    <string name="medication_label_active_ingredients">Princípio(s) Ativo(s)</string>
+    <string name="medication_label_presentation">Apresentação</string>
+    <string name="medication_label_laboratory">Laboratório</string>
+    <string name="medication_label_cnpj">CNPJ</string>
+    <string name="medication_label_therapeutic_class">Classe Terapêutica</string>
+    <string name="medication_label_product_type">Tipo de Produto</string>
+    <string name="medication_label_stripe">Tarja</string>
+    <string name="medication_label_hospital_restriction">Restrição Hospitalar</string>
+    <string name="medication_label_ean1">EAN 1</string>
+    <string name="medication_label_ean2">EAN 2</string>
+    <string name="medication_label_ean3">EAN 3</string>
+    <string name="medication_value_yes">Sim</string>
+    <string name="medication_value_no">Não</string>
+    <string name="medication_value_not_informed">Não informado</string>
+    <string name="medication_error_list_loading">Erro desconhecido ao carregar a lista.</string>
+    <string name="medication_error_details_loading">Erro desconhecido ao carregar os detalhes.</string>
 </resources>

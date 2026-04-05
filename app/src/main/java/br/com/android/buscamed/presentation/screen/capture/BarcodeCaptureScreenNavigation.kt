@@ -6,13 +6,15 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import br.com.android.buscamed.domain.model.medication.AnvisaMedication
+import br.com.android.buscamed.presentation.screen.result.MedicationDetailsArgs
+import br.com.android.buscamed.presentation.screen.result.MedicationListArgs
 import br.com.android.buscamed.presentation.viewmodel.BarcodeCaptureViewModel
 
 const val barcodeCaptureScreenRoute = "barcodeCapture"
 
 fun NavGraphBuilder.barcodeCaptureScreen(
-    onNavigateToMedicationDetails: (AnvisaMedication) -> Unit,
-    onNavigateToMedicationList: (List<AnvisaMedication>) -> Unit
+    onNavigateToMedicationDetails: (MedicationDetailsArgs) -> Unit,
+    onNavigateToMedicationList: (MedicationListArgs) -> Unit
 ) {
     composable(route = barcodeCaptureScreenRoute) {
         val barcodeCaptureViewModel = hiltViewModel<BarcodeCaptureViewModel>()

@@ -25,6 +25,10 @@ import br.com.android.buscamed.presentation.screen.prescription.prescriptionResu
 import br.com.android.buscamed.presentation.screen.registeruser.RegisterUserScreenArgs
 import br.com.android.buscamed.presentation.screen.registeruser.navigateToRegisterUserScreen
 import br.com.android.buscamed.presentation.screen.registeruser.registerUserScreen
+import br.com.android.buscamed.presentation.screen.result.medicationDetailsScreen
+import br.com.android.buscamed.presentation.screen.result.medicationListScreen
+import br.com.android.buscamed.presentation.screen.result.navigateToMedicationDetails
+import br.com.android.buscamed.presentation.screen.result.navigateToMedicationList
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 
@@ -97,13 +101,18 @@ fun BuscaMedNavHost(
             onBackClick = navController::popBackStack
         )
 
+        medicationListScreen(
+            onBackClick = navController::popBackStack,
+            onMedicationClick = navController::navigateToMedicationDetails
+        )
+
+        medicationDetailsScreen(
+            onBackClick = navController::popBackStack,
+        )
+
         barcodeCaptureScreen(
-            onNavigateToMedicationDetails = { medication ->
-
-            },
-            onNavigateToMedicationList = { medications ->
-
-            }
+            onNavigateToMedicationDetails = navController::navigateToMedicationDetails,
+            onNavigateToMedicationList = navController::navigateToMedicationList
         )
     }
 }

@@ -1,5 +1,6 @@
 package br.com.android.buscamed.presentation.screen.capture
 
+import android.util.Log
 import androidx.camera.core.ImageProxy
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -19,22 +20,26 @@ import br.com.android.buscamed.presentation.core.components.dialog.BaseMessageDi
 import br.com.android.buscamed.presentation.screen.capture.components.CameraXPreview
 import br.com.android.buscamed.presentation.screen.capture.components.InteractiveOverlay
 import br.com.android.buscamed.presentation.screen.capture.state.BarcodeCaptureUIState
+import br.com.android.buscamed.presentation.screen.result.MedicationDetailsArgs
+import br.com.android.buscamed.presentation.screen.result.MedicationListArgs
 import br.com.android.buscamed.presentation.viewmodel.BarcodeCaptureViewModel
 
 @Composable
 fun BarcodeCaptureScreen(
     viewModel: BarcodeCaptureViewModel,
-    onNavigateToMedicationDetails: (AnvisaMedication) -> Unit,
-    onNavigateToMedicationList: (List<AnvisaMedication>) -> Unit
+    onNavigateToMedicationDetails: (MedicationDetailsArgs) -> Unit,
+    onNavigateToMedicationList: (MedicationListArgs) -> Unit
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(state.searchResult) {
         state.searchResult?.let { medications ->
+            viewModel.resumeScanning()
+
             if (medications.size == 1) {
-                onNavigateToMedicationDetails(medications.first())
+                onNavigateToMedicationDetails(MedicationDetailsArgs(medications.first()))
             } else if (medications.size > 1) {
-                onNavigateToMedicationList(medications)
+                onNavigateToMedicationList(MedicationListArgs(medications))
             }
         }
     }
