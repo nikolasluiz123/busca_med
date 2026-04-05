@@ -10,14 +10,16 @@ import br.com.android.buscamed.presentation.viewmodel.HomeViewModel
 const val homeScreenRoute = "home"
 
 fun NavGraphBuilder.homeScreen(
-    onNavigateToDocumentCapture: () -> Unit
+    onNavigateToPrescriptionCapture: () -> Unit,
+    onNavigateToPillPackCapture: () -> Unit
 ) {
     composable(route = homeScreenRoute) {
         val homeViewModel = hiltViewModel<HomeViewModel>()
 
         HomeScreen(
             viewModel = homeViewModel,
-            onNavigateToPrescriptionCapture = onNavigateToDocumentCapture
+            onNavigateToPrescriptionCapture = onNavigateToPrescriptionCapture,
+            onNavigateToPillPackCapture = onNavigateToPillPackCapture
         )
     }
 }

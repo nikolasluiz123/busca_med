@@ -41,7 +41,16 @@
 
     <string name="home_screen_title">Home</string>
     <string name="home_screen_welcome_message">Bem-vindo à Home!</string>
-    <string name="home_screen_label_button_document_capture">Campturar Documento</string>
+    <string name="home_screen_label_button_prescription_capture">Escanear Prescrição Médica</string>
+    <string name="home_screen_label_button_pillpack_capture">Escanear Cartela de Comprimidos</string>
+    <string name="pillpack_result_screen_title">Resultado da Cartela de Comprimidos</string>
+    <string name="label_active_ingredients">Princípios Ativos</string>
+    <string name="label_usage_info">Informações de Uso</string>
+    <string name="label_administration_routes">Vias de Administração</string>
+    <string name="label_age_restrictions">Restrições de Idade</string>
+    <string name="label_indications">Indicações</string>
+    <string name="label_expiration_date">Data de Validade</string>
+    <string name="label_batch">Lote</string>
     <string name="prescription_result_screen_title">Resultado da Extração da Prescrição</string>
     <string name="label_unknown_medication">Medicamento Desconhecido</string>
     <string name="label_presentation">Apresentação</string>

@@ -1,6 +1,6 @@
 package br.com.android.buscamed.data.core.network
 
-import br.com.android.buscamed.data.datasource.remote.dto.ErrorResponseDTO
+import br.com.android.buscamed.data.datasource.remote.dto.generic.response.ErrorResponseDTO
 import br.com.android.buscamed.domain.exception.ServiceException
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse

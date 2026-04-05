@@ -5,13 +5,18 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.NavHost
-import br.com.android.buscamed.presentation.screen.capture.prescriptionCaptureScreen
+import br.com.android.buscamed.presentation.screen.capture.navigateToPillPackCaptureScreen
 import br.com.android.buscamed.presentation.screen.capture.navigateToPrescriptionCaptureScreen
+import br.com.android.buscamed.presentation.screen.capture.pillPackCaptureScreen
+import br.com.android.buscamed.presentation.screen.capture.prescriptionCaptureScreen
 import br.com.android.buscamed.presentation.screen.home.homeScreen
 import br.com.android.buscamed.presentation.screen.home.homeScreenRoute
 import br.com.android.buscamed.presentation.screen.home.navigateToHomeScreen
 import br.com.android.buscamed.presentation.screen.login.loginScreen
 import br.com.android.buscamed.presentation.screen.login.loginScreenRoute
+import br.com.android.buscamed.presentation.screen.pillpack.PillPackResultScreenArgs
+import br.com.android.buscamed.presentation.screen.pillpack.navigateToPillPackResult
+import br.com.android.buscamed.presentation.screen.pillpack.pillPackResultScreen
 import br.com.android.buscamed.presentation.screen.prescription.PrescriptionResultScreenArgs
 import br.com.android.buscamed.presentation.screen.prescription.navigateToPrescriptionResult
 import br.com.android.buscamed.presentation.screen.prescription.prescriptionResultScreen
@@ -61,7 +66,20 @@ fun BuscaMedNavHost(
         )
 
         homeScreen(
-            onNavigateToDocumentCapture = navController::navigateToPrescriptionCaptureScreen
+            onNavigateToPrescriptionCapture = navController::navigateToPrescriptionCaptureScreen,
+            onNavigateToPillPackCapture = navController::navigateToPillPackCaptureScreen
+        )
+
+        pillPackCaptureScreen(
+            onPillPackProcessed = { pillPack ->
+                navController.navigateToPillPackResult(
+                    args = PillPackResultScreenArgs(pillPack)
+                )
+            }
+        )
+
+        pillPackResultScreen(
+            onBackClick = navController::popBackStack
         )
 
         prescriptionCaptureScreen(

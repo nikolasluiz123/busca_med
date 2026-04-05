@@ -19,20 +19,23 @@ import br.com.android.buscamed.presentation.viewmodel.HomeViewModel
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel,
-    onNavigateToPrescriptionCapture: () -> Unit
+    onNavigateToPrescriptionCapture: () -> Unit,
+    onNavigateToPillPackCapture: () -> Unit
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
     HomeScreen(
         state = state,
-        onNavigateToPrescriptionCapture = onNavigateToPrescriptionCapture
+        onNavigateToPrescriptionCapture = onNavigateToPrescriptionCapture,
+        onNavigateToPillPackCapture = onNavigateToPillPackCapture
     )
 }
 
 @Composable
 fun HomeScreen(
     state: HomeUIState = HomeUIState(),
-    onNavigateToPrescriptionCapture: () -> Unit = {}
+    onNavigateToPrescriptionCapture: () -> Unit = {},
+    onNavigateToPillPackCapture: () -> Unit = {}
 ) {
     Scaffold(
         topBar = {
@@ -49,8 +52,12 @@ fun HomeScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             BaseButton(
-                label = stringResource(R.string.home_screen_label_button_document_capture),
+                label = stringResource(R.string.home_screen_label_button_prescription_capture),
                 onClickListener = onNavigateToPrescriptionCapture
+            )
+            BaseButton(
+                label = stringResource(R.string.home_screen_label_button_pillpack_capture),
+                onClickListener = onNavigateToPillPackCapture
             )
         }
     }

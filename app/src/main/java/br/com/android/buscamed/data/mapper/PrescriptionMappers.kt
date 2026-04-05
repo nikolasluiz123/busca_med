@@ -1,11 +1,12 @@
 package br.com.android.buscamed.data.mapper
 
-import br.com.android.buscamed.data.datasource.remote.dto.DurationDTO
-import br.com.android.buscamed.data.datasource.remote.dto.FrequencyDTO
-import br.com.android.buscamed.data.datasource.remote.dto.PrescriptionMedicationDTO
-import br.com.android.buscamed.data.datasource.remote.dto.PrescriptionResponseDTO
-import br.com.android.buscamed.data.datasource.remote.dto.ValueUnitDTO
+import br.com.android.buscamed.data.datasource.remote.dto.prescription.response.DurationDTO
+import br.com.android.buscamed.data.datasource.remote.dto.prescription.response.FrequencyDTO
+import br.com.android.buscamed.data.datasource.remote.dto.prescription.response.PrescriptionMedicationDTO
+import br.com.android.buscamed.data.datasource.remote.dto.prescription.response.PrescriptionResponseDTO
+import br.com.android.buscamed.data.datasource.remote.dto.generic.response.ValueUnitDTO
 import br.com.android.buscamed.domain.model.prescription.*
+import br.com.android.buscamed.domain.model.generic.ValueUnit
 
 fun PrescriptionResponseDTO.toDomain(): Prescription {
     return Prescription(

@@ -1,7 +1,7 @@
 package br.com.android.buscamed.data.datasource.remote
 
 import br.com.android.buscamed.data.core.network.safeApiCall
-import br.com.android.buscamed.data.datasource.remote.dto.prescription.response.PrescriptionResponseDTO
+import br.com.android.buscamed.data.datasource.remote.dto.pillpack.response.PillPackResponseDTO
 import br.com.android.buscamed.domain.model.capture.ExecutionMetadata
 import io.ktor.client.HttpClient
 import io.ktor.client.request.forms.MultiPartFormDataContent
@@ -20,22 +20,22 @@ import javax.inject.Inject
  *
  * @property httpClient Cliente HTTP configurado para as requisições.
  */
-class PrescriptionRemoteDataSourceImpl @Inject constructor(
+class PillPackRemoteDataSourceImpl @Inject constructor(
     private val httpClient: HttpClient
-) : PrescriptionRemoteDataSource {
+) : PillPackRemoteDataSource {
 
-    override suspend fun processPrescriptionText(text: String, file: File, metadata: ExecutionMetadata): PrescriptionResponseDTO {
+    override suspend fun processPillPackText(text: String, file: File, metadata: ExecutionMetadata): PillPackResponseDTO {
         return safeApiCall {
-            httpClient.post("/v1/prescription/process/text") {
+            httpClient.post("/v1/pillpack/process/text") {
                 contentType(ContentType.Application.Json)
                 setBody(buildMultiPartFrom(file, text, metadata.pipelineVersion))
             }
         }
     }
 
-    override suspend fun processPrescriptionImage(text: String, file: File, metadata: ExecutionMetadata): PrescriptionResponseDTO {
+    override suspend fun processPillPackImage(text: String, file: File, metadata: ExecutionMetadata): PillPackResponseDTO {
         return safeApiCall {
-            httpClient.post("/v1/prescription/process/image") {
+            httpClient.post("/v1/pillpack/process/image") {
                 setBody(buildMultiPartFrom(file, text, metadata.pipelineVersion))
             }
         }

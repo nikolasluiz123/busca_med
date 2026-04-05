@@ -1,4 +1,4 @@
-package br.com.android.buscamed.data.datasource.remote.dto
+package br.com.android.buscamed.data.datasource.remote.dto.generic.request
 
 import kotlinx.serialization.Serializable
 

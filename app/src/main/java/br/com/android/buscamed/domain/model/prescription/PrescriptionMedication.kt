@@ -1,14 +1,9 @@
 package br.com.android.buscamed.domain.model.prescription
 
+import br.com.android.buscamed.domain.model.generic.ValueUnit
+
 /**
- * Representa os dados extraídos de um medicamento.
- *
- * @property name Nome do medicamento.
- * @property presentationDosage Apresentação e dosagem.
- * @property dose Quantidade a ser ingerida por vez.
- * @property frequency Frequência de uso.
- * @property duration Duração do tratamento.
- * @property totalPrescribedQuantity Quantidade total prescrita.
+ * Represents the extracted data of a medication.
  */
 data class PrescriptionMedication(
     val name: String?,

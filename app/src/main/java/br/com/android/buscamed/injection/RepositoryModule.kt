@@ -1,7 +1,9 @@
 package br.com.android.buscamed.injection
 
+import br.com.android.buscamed.data.repository.PillPackRepositoryImpl
 import br.com.android.buscamed.data.repository.PrescriptionRepositoryImpl
 import br.com.android.buscamed.data.repository.UserRepositoryImpl
+import br.com.android.buscamed.domain.repository.PillPackRepository
 import br.com.android.buscamed.domain.repository.PrescriptionRepository
 import br.com.android.buscamed.domain.repository.UserRepository
 import dagger.Binds
@@ -22,4 +24,9 @@ abstract class RepositoryModule {
     abstract fun bindPrescriptionRepository(
         impl: PrescriptionRepositoryImpl
     ): PrescriptionRepository
+
+    @Binds
+    abstract fun bindPillPackRepository(
+        impl: PillPackRepositoryImpl
+    ): PillPackRepository
 }

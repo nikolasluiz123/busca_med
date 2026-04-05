@@ -21,10 +21,10 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.android.buscamed.R
+import br.com.android.buscamed.domain.model.generic.ValueUnit
 import br.com.android.buscamed.domain.model.prescription.Duration
 import br.com.android.buscamed.domain.model.prescription.Frequency
 import br.com.android.buscamed.domain.model.prescription.PrescriptionMedication
-import br.com.android.buscamed.domain.model.prescription.ValueUnit
 import br.com.android.buscamed.presentation.core.components.dialog.BaseMessageDialog
 import br.com.android.buscamed.presentation.core.components.label.LabeledText
 import br.com.android.buscamed.presentation.core.components.topbar.SimpleTopAppBar
