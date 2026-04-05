@@ -62,7 +62,7 @@ fun BarcodeCaptureScreen(
                 onAnalyzeFrame = onFrameAvailable
             )
 
-            if (state.isScanning) {
+            if (!state.isSearching) {
                 InteractiveOverlay(
                     modifier = Modifier.fillMaxSize(),
                     analyzerState = state.analyzerState,

@@ -18,6 +18,7 @@ import br.com.android.buscamed.presentation.screen.capture.state.BarcodeCaptureU
 import br.com.android.buscamed.presentation.viewmodel.core.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -110,11 +111,16 @@ class BarcodeCaptureViewModel @Inject constructor(
     private fun processCapturedBarcode(barcode: String) {
         _uiState.value = _uiState.value.copy(
             isScanning = false,
-            isSearching = true,
             capturedBarcode = barcode
         )
 
         launch {
+            delay(500)
+
+            _uiState.value = _uiState.value.copy(
+                isSearching = true
+            )
+
             when (val result = searchMedicationUseCase(barcode)) {
                 is UseCaseResult.Success -> {
                     _uiState.value = _uiState.value.copy(
