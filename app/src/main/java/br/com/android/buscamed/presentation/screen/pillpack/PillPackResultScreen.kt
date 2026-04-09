@@ -26,7 +26,7 @@ import br.com.android.buscamed.domain.model.pillpack.PillPackComponent
 import br.com.android.buscamed.presentation.core.components.dialog.BaseMessageDialog
 import br.com.android.buscamed.presentation.core.components.label.LabeledText
 import br.com.android.buscamed.presentation.core.components.topbar.SimpleTopAppBar
-import br.com.android.buscamed.presentation.state.PillPackResultUIState
+import br.com.android.buscamed.presentation.screen.pillpack.PillPackResultUIState
 import br.com.android.buscamed.presentation.viewmodel.PillPackResultViewModel
 
 @Composable

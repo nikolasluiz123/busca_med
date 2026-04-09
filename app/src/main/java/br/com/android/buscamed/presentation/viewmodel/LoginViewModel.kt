@@ -13,7 +13,7 @@ import br.com.android.buscamed.domain.usecase.authentication.enumeration.UserCre
 import br.com.android.buscamed.domain.usecase.authentication.enumeration.UserCredentialsGeneralErrorType
 import br.com.android.buscamed.presentation.core.components.dialog.showErrorDialog
 import br.com.android.buscamed.presentation.core.state.enumeration.EnumDialogType
-import br.com.android.buscamed.presentation.state.LoginUIState
+import br.com.android.buscamed.presentation.screen.login.LoginUIState
 import br.com.android.buscamed.presentation.viewmodel.core.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext

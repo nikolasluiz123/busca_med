@@ -20,6 +20,9 @@ import com.google.firebase.firestore.DocumentId
  * @property productType Tipo de produto (ex: Similar, Genérico, Novo).
  * @property isHospitalRestriction Flag que indica se o medicamento possui restrição de uso exclusivo hospitalar.
  * @property stripe Classificação da tarja (ex: Vermelha, Preta, Sem Tarja).
+ * @property hasLeaflet Flag que indica se o medicamento possui bula.
+ * @property hasLeafletPatientResume Flag que indica se o medicamento possui bula do paciente resumida.
+ * @property hasLeafletProfessionalResume Flag que indica se o medicamento possui bula do profissional resumida.
  */
 data class AnvisaMedicationDocument(
     @DocumentId
@@ -35,5 +38,8 @@ data class AnvisaMedicationDocument(
     val therapeuticClass: String = "",
     val productType: String = "",
     val isHospitalRestriction: Boolean = false,
-    val stripe: String = ""
+    val stripe: String = "",
+    val hasLeaflet: Boolean = false,
+    val hasLeafletPatientResume: Boolean = false,
+    val hasLeafletProfessionalResume: Boolean = false
 ) : FirestoreDocument()

@@ -1,6 +1,7 @@
 package br.com.android.buscamed.data.datasource.firestore
 
 import br.com.android.buscamed.data.document.AnvisaMedicationDocument
+import br.com.android.buscamed.data.document.AnvisaMedicationLeafletDocument
 
 /**
  * Contrato para a fonte de dados de medicamentos.
@@ -14,4 +15,11 @@ interface MedicationDataSource {
      * @return Uma lista de [AnvisaMedicationDocument] correspondentes.
      */
     suspend fun getMedicationsByEan(ean: String): List<AnvisaMedicationDocument>
+
+    suspend fun getPaginatedMedications(
+        limit: Int,
+        cursorSnapshot: Any?
+    ): Pair<List<AnvisaMedicationDocument>, Any?>
+
+    suspend fun getLeaflet(medicationId: String, typeId: String): AnvisaMedicationLeafletDocument?
 }

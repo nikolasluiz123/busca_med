@@ -83,4 +83,25 @@
     <string name="medication_value_not_informed">Não informado</string>
     <string name="medication_error_list_loading">Erro desconhecido ao carregar a lista.</string>
     <string name="medication_error_details_loading">Erro desconhecido ao carregar os detalhes.</string>
+    <string name="home_screen_label_button_medication_catalog">Catálogo de Medicamentos</string>
+    <string name="medication_catalog_screen_title">Catálogo de Medicamentos</string>
+    <string name="medication_leaflet_screen_title">Bulas do Medicamento</string>
+    <string name="label_patient_leaflet">Bula do Paciente</string>
+    <string name="label_professional_leaflet">Bula do Profissional</string>
+    <string name="leaflet_patient_indications">Indicações</string>
+    <string name="leaflet_patient_how_to_use">Como usar</string>
+    <string name="leaflet_patient_mechanism_of_action">Mecanismo de ação</string>
+    <string name="leaflet_patient_missed_dose">Dose esquecida</string>
+    <string name="leaflet_patient_common_side_effects">Efeitos colaterais comuns</string>
+    <string name="leaflet_patient_contraindications">Contraindicações</string>
+    <string name="leaflet_patient_interactions_to_avoid">Interações a evitar</string>
+    <string name="leaflet_patient_precautions_and_warnings">Precauções e avisos</string>
+
+    <string name="leaflet_professional_pharmacological_properties">Propriedades Farmacológicas</string>
+    <string name="leaflet_professional_indications_and_spectrum">Indicações e Espectro</string>
+    <string name="leaflet_professional_dosage_adjustments">Ajustes de dosagem</string>
+    <string name="leaflet_professional_clinical_warnings">Avisos clínicos</string>
+    <string name="leaflet_professional_adverse_reactions">Reações adversas</string>
+    <string name="leaflet_professional_drug_interactions">Interações medicamentosas</string>
+    <string name="leaflet_professional_lab_test_interferences">Interferências em exames laboratoriais</string>
 </resources>

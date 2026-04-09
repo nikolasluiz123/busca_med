@@ -2,7 +2,7 @@ package br.com.android.buscamed.presentation.viewmodel
 
 import android.content.Context
 import br.com.android.buscamed.R
-import br.com.android.buscamed.presentation.state.HomeUIState
+import br.com.android.buscamed.presentation.screen.home.HomeUIState
 import br.com.android.buscamed.presentation.viewmodel.core.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext

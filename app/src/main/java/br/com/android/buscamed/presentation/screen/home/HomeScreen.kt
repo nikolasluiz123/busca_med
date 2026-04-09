@@ -13,7 +13,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import br.com.android.buscamed.R
 import br.com.android.buscamed.presentation.core.components.buttons.BaseButton
 import br.com.android.buscamed.presentation.core.components.topbar.SimpleTopAppBar
-import br.com.android.buscamed.presentation.state.HomeUIState
+import br.com.android.buscamed.presentation.screen.home.HomeUIState
 import br.com.android.buscamed.presentation.viewmodel.HomeViewModel
 
 @Composable
@@ -21,7 +21,8 @@ fun HomeScreen(
     viewModel: HomeViewModel,
     onNavigateToPrescriptionCapture: () -> Unit,
     onNavigateToPillPackCapture: () -> Unit,
-    onNavigateToBarcodeCapture: () -> Unit
+    onNavigateToBarcodeCapture: () -> Unit,
+    onNavigateToMedicationCatalog: () -> Unit
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -29,7 +30,8 @@ fun HomeScreen(
         state = state,
         onNavigateToPrescriptionCapture = onNavigateToPrescriptionCapture,
         onNavigateToPillPackCapture = onNavigateToPillPackCapture,
-        onNavigateToBarcodeCapture = onNavigateToBarcodeCapture
+        onNavigateToBarcodeCapture = onNavigateToBarcodeCapture,
+        onNavigateToMedicationCatalog = onNavigateToMedicationCatalog
     )
 }
 
@@ -38,7 +40,8 @@ fun HomeScreen(
     state: HomeUIState = HomeUIState(),
     onNavigateToPrescriptionCapture: () -> Unit = {},
     onNavigateToPillPackCapture: () -> Unit = {},
-    onNavigateToBarcodeCapture: () -> Unit = {}
+    onNavigateToBarcodeCapture: () -> Unit = {},
+    onNavigateToMedicationCatalog: () -> Unit = {}
 ) {
     Scaffold(
         topBar = {
@@ -65,6 +68,10 @@ fun HomeScreen(
             BaseButton(
                 label = stringResource(R.string.home_screen_label_button_scan_barcode),
                 onClickListener = onNavigateToBarcodeCapture
+            )
+            BaseButton(
+                label = stringResource(R.string.home_screen_label_button_medication_catalog),
+                onClickListener = onNavigateToMedicationCatalog
             )
         }
     }

@@ -16,6 +16,10 @@ import br.com.android.buscamed.presentation.screen.home.homeScreenRoute
 import br.com.android.buscamed.presentation.screen.home.navigateToHomeScreen
 import br.com.android.buscamed.presentation.screen.login.loginScreen
 import br.com.android.buscamed.presentation.screen.login.loginScreenRoute
+import br.com.android.buscamed.presentation.screen.medication.medicationCatalogScreen
+import br.com.android.buscamed.presentation.screen.medication.medicationLeafletScreen
+import br.com.android.buscamed.presentation.screen.medication.navigateToMedicationCatalog
+import br.com.android.buscamed.presentation.screen.medication.navigateToMedicationLeaflet
 import br.com.android.buscamed.presentation.screen.pillpack.PillPackResultScreenArgs
 import br.com.android.buscamed.presentation.screen.pillpack.navigateToPillPackResult
 import br.com.android.buscamed.presentation.screen.pillpack.pillPackResultScreen
@@ -74,7 +78,8 @@ fun BuscaMedNavHost(
         homeScreen(
             onNavigateToPrescriptionCapture = navController::navigateToPrescriptionCaptureScreen,
             onNavigateToPillPackCapture = navController::navigateToPillPackCaptureScreen,
-            onNavigateToBarcodeCapture = navController::navigateToBarcodeCaptureScreen
+            onNavigateToBarcodeCapture = navController::navigateToBarcodeCaptureScreen,
+            onNavigateToMedicationCatalog = navController::navigateToMedicationCatalog
         )
 
         pillPackCaptureScreen(
@@ -113,6 +118,15 @@ fun BuscaMedNavHost(
         barcodeCaptureScreen(
             onNavigateToMedicationDetails = navController::navigateToMedicationDetails,
             onNavigateToMedicationList = navController::navigateToMedicationList
+        )
+
+        medicationCatalogScreen(
+            onBackClick = navController::popBackStack,
+            onMedicationClick = navController::navigateToMedicationLeaflet
+        )
+
+        medicationLeafletScreen(
+            onBackClick = navController::popBackStack
         )
     }
 }

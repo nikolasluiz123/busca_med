@@ -14,7 +14,7 @@ import br.com.android.buscamed.presentation.core.tags.GenericUIComponentTag
 import br.com.android.buscamed.presentation.core.theme.BuscaMedTheme
 import br.com.android.buscamed.presentation.screen.login.LoginScreen
 import br.com.android.buscamed.presentation.screen.login.LoginTestTag
-import br.com.android.buscamed.presentation.state.LoginUIState
+import br.com.android.buscamed.presentation.screen.login.LoginUIState
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test

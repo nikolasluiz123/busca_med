@@ -1,7 +1,11 @@
 package br.com.android.buscamed.data.mapper
 
+import br.com.android.buscamed.data.datasource.remote.dto.leaflet.PatientLeafletDTO
+import br.com.android.buscamed.data.datasource.remote.dto.leaflet.ProfessionalLeafletDTO
 import br.com.android.buscamed.data.document.AnvisaMedicationDocument
 import br.com.android.buscamed.domain.model.medication.AnvisaMedication
+import br.com.android.buscamed.domain.model.medication.leaflet.PatientLeaflet
+import br.com.android.buscamed.domain.model.medication.leaflet.ProfessionalLeaflet
 
 /**
  * Converte um documento do Firestore [AnvisaMedicationDocument] em uma entidade de domínio [AnvisaMedication].
@@ -22,6 +26,34 @@ fun AnvisaMedicationDocument.toDomain(): AnvisaMedication {
         therapeuticClass = this.therapeuticClass,
         productType = this.productType,
         isHospitalRestriction = this.isHospitalRestriction,
-        stripe = this.stripe
+        stripe = this.stripe,
+        hasLeaflet = this.hasLeaflet,
+        hasLeafletPatientResume = this.hasLeafletPatientResume,
+        hasLeafletProfessionalResume = this.hasLeafletProfessionalResume
+    )
+}
+
+fun PatientLeafletDTO.toDomain(): PatientLeaflet {
+    return PatientLeaflet(
+        commonSideEffects = this.commonSideEffects,
+        contraindications = this.contraindications,
+        howToUse = this.howToUse,
+        indications = this.indications,
+        interactionsToAvoid = this.interactionsToAvoid,
+        mechanismOfAction = this.mechanismOfAction,
+        missedDose = this.missedDose,
+        precautionsAndWarnings = this.precautionsAndWarnings
+    )
+}
+
+fun ProfessionalLeafletDTO.toDomain(): ProfessionalLeaflet {
+    return ProfessionalLeaflet(
+        adverseReactions = this.adverseReactions,
+        clinicalWarnings = this.clinicalWarnings,
+        dosageAdjustments = this.dosageAdjustments,
+        drugInteractions = this.drugInteractions,
+        indicationsAndSpectrum = this.indicationsAndSpectrum,
+        labTestInterferences = this.labTestInterferences,
+        pharmacologicalProperties = this.pharmacologicalProperties
     )
 }

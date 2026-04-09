@@ -6,7 +6,7 @@ import br.com.android.buscamed.presentation.core.extensions.fromJsonNavParamToAr
 import br.com.android.buscamed.presentation.core.state.enumeration.EnumDialogType
 import br.com.android.buscamed.presentation.screen.prescription.PrescriptionResultScreenArgs
 import br.com.android.buscamed.presentation.screen.prescription.prescriptionResultArguments
-import br.com.android.buscamed.presentation.state.PrescriptionResultUIState
+import br.com.android.buscamed.presentation.screen.prescription.PrescriptionResultUIState
 import br.com.android.buscamed.presentation.viewmodel.core.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

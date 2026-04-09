@@ -19,7 +19,7 @@ import br.com.android.buscamed.presentation.core.extensions.fromJsonNavParamToAr
 import br.com.android.buscamed.presentation.core.state.enumeration.EnumDialogType
 import br.com.android.buscamed.presentation.screen.registeruser.RegisterUserScreenArgs
 import br.com.android.buscamed.presentation.screen.registeruser.registerUserArguments
-import br.com.android.buscamed.presentation.state.RegisterUserUIState
+import br.com.android.buscamed.presentation.screen.registeruser.RegisterUserUIState
 import br.com.android.buscamed.presentation.viewmodel.core.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext

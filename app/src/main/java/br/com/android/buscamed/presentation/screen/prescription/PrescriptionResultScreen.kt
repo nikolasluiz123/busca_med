@@ -28,7 +28,7 @@ import br.com.android.buscamed.domain.model.prescription.PrescriptionMedication
 import br.com.android.buscamed.presentation.core.components.dialog.BaseMessageDialog
 import br.com.android.buscamed.presentation.core.components.label.LabeledText
 import br.com.android.buscamed.presentation.core.components.topbar.SimpleTopAppBar
-import br.com.android.buscamed.presentation.state.PrescriptionResultUIState
+import br.com.android.buscamed.presentation.screen.prescription.PrescriptionResultUIState
 import br.com.android.buscamed.presentation.viewmodel.PrescriptionResultViewModel
 
 /**

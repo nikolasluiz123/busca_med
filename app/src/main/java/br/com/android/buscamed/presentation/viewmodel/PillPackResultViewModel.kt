@@ -6,7 +6,7 @@ import br.com.android.buscamed.presentation.core.extensions.fromJsonNavParamToAr
 import br.com.android.buscamed.presentation.core.state.enumeration.EnumDialogType
 import br.com.android.buscamed.presentation.screen.pillpack.PillPackResultScreenArgs
 import br.com.android.buscamed.presentation.screen.pillpack.pillPackResultArguments
-import br.com.android.buscamed.presentation.state.PillPackResultUIState
+import br.com.android.buscamed.presentation.screen.pillpack.PillPackResultUIState
 import br.com.android.buscamed.presentation.viewmodel.core.BaseViewModel
 import com.google.gson.GsonBuilder
 import dagger.hilt.android.lifecycle.HiltViewModel

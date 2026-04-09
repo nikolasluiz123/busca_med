@@ -1,4 +1,4 @@
-package br.com.android.buscamed.presentation.state
+package br.com.android.buscamed.presentation.screen.pillpack
 
 import br.com.android.buscamed.domain.model.pillpack.PillPack
 import br.com.android.buscamed.presentation.core.state.dialog.MessageDialogState

@@ -39,7 +39,7 @@ import br.com.android.buscamed.presentation.core.keyboard.EmailKeyboardOptions
 import br.com.android.buscamed.presentation.core.keyboard.LastPasswordKeyboardOptions
 import br.com.android.buscamed.presentation.core.keyboard.PersonNameKeyboardOptions
 import br.com.android.buscamed.presentation.core.theme.SnackBarTextStyle
-import br.com.android.buscamed.presentation.state.RegisterUserUIState
+import br.com.android.buscamed.presentation.screen.registeruser.RegisterUserUIState
 import br.com.android.buscamed.presentation.viewmodel.RegisterUserViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

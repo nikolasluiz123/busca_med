@@ -33,7 +33,7 @@ import br.com.android.buscamed.presentation.core.keyboard.EmailKeyboardOptions
 import br.com.android.buscamed.presentation.core.keyboard.LastPasswordKeyboardOptions
 import br.com.android.buscamed.presentation.core.permissions.RequestAllPermissions
 import br.com.android.buscamed.presentation.core.theme.BuscaMedTheme
-import br.com.android.buscamed.presentation.state.LoginUIState
+import br.com.android.buscamed.presentation.screen.login.LoginUIState
 import br.com.android.buscamed.presentation.viewmodel.LoginViewModel
 
 @Composable

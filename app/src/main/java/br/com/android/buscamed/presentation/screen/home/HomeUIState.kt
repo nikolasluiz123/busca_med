@@ -1,4 +1,4 @@
-package br.com.android.buscamed.presentation.state
+package br.com.android.buscamed.presentation.screen.home
 
 import br.com.android.buscamed.presentation.core.state.dialog.MessageDialogState
 import br.com.android.buscamed.presentation.core.state.interfaces.LoadingUIState

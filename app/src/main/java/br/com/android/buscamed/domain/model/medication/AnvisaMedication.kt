@@ -16,6 +16,9 @@ package br.com.android.buscamed.domain.model.medication
  * @property productType Tipo de produto.
  * @property isHospitalRestriction Indica se possui restrição de uso hospitalar.
  * @property stripe Classificação da tarja do medicamento.
+ * @property hasLeaflet Indica se possui a bula.
+ * @property hasLeafletPatientResume Indica se possui a bula do paciente resumida.
+ * @property hasLeafletProfessionalResume Indica se possui a bula do profissional resumida.
  */
 data class AnvisaMedication(
     val id: String,
@@ -30,5 +33,8 @@ data class AnvisaMedication(
     val therapeuticClass: String,
     val productType: String,
     val isHospitalRestriction: Boolean,
-    val stripe: String
+    val stripe: String,
+    val hasLeaflet: Boolean,
+    val hasLeafletPatientResume: Boolean,
+    val hasLeafletProfessionalResume: Boolean
 )

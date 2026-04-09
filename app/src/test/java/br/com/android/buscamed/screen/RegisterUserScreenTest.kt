@@ -13,7 +13,7 @@ import br.com.android.buscamed.presentation.core.tags.GenericUIComponentTag
 import br.com.android.buscamed.presentation.core.theme.BuscaMedTheme
 import br.com.android.buscamed.presentation.screen.registeruser.RegisterUserScreen
 import br.com.android.buscamed.presentation.screen.registeruser.RegisterUserTestTag
-import br.com.android.buscamed.presentation.state.RegisterUserUIState
+import br.com.android.buscamed.presentation.screen.registeruser.RegisterUserUIState
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
