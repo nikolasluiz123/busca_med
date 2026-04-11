@@ -1,4 +1,3 @@
-// android/buscamed/data/analyzer/mlkit/MLKitTextFrameAnalyzer.kt
 package br.com.android.buscamed.data.analyzer.mlkit
 
 import android.media.Image

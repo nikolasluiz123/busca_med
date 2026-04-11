@@ -1,4 +1,3 @@
-// presentation/screen/leaflet/MedicationLeafletScreenNavigation.kt
 package br.com.android.buscamed.presentation.screen.medication
 
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
