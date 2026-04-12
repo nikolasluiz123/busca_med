@@ -40,7 +40,7 @@ android {
         }
 
         debug {
-            buildConfigField("String", "BASE_URL", "\"http://192.168.0.41:8080\"")
+            buildConfigField("String", "BASE_URL", "\"https://buscamed-service-7zd5rrmmaq-rj.a.run.app\"")
         }
     }
     compileOptions {
